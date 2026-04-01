@@ -237,8 +237,10 @@ async def chat(
     if not body.message.strip():
         raise HTTPException(status_code=400, detail="Message cannot be empty.")
     user_message = sanitize_text(body.message)
-    # Bind user_id
+    # Bind user_id and refresh CRM context
     get_or_create_session(session_id, user_id=user["sub"])
+    await refresh_crm_block(session_id)
+
     result = await llm_engine.generate(session_id=session_id, user_message=user_message)
     return ChatResponse(**result)
 

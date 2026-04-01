@@ -212,10 +212,40 @@ function BenchmarkPanel() {
   }
 
   const runConcurrency = async () => {
+    setConcurrency({ per_user: [], status: 'simulating' })
     setTestingConcurrency(true)
     try {
-      const res = await adminFetch('/benchmark/concurrency', { method: 'POST' })
-      setConcurrency(res)
+      const token = sessionStorage.getItem('auth_token')
+      const res = await fetch(API_BASE + '/admin/benchmark/concurrency', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        }
+      })
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buf = ''
+      
+      while (true) {
+        const { done: d, value } = await reader.read()
+        if (d) break
+        buf += decoder.decode(value, { stream: true })
+        const lines = buf.split('\n')
+        buf = lines.pop()
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue
+          const json = JSON.parse(line.slice(6))
+          if (json.done) {
+            setConcurrency(json)
+          } else if (json.individual_result) {
+            setConcurrency(prev => ({
+              ...prev,
+              per_user: [...(prev?.per_user || []), json.individual_result]
+            }))
+          }
+        }
+      }
     } catch (e) { console.error(e) }
     finally { setTestingConcurrency(false) }
   }
@@ -248,11 +278,11 @@ function BenchmarkPanel() {
             <div className="p-4 bg-blue-50 rounded-xl border border-blue-100 grid grid-cols-2 sm:grid-cols-5 gap-4">
               <div>
                 <p className="text-[10px] uppercase font-bold text-blue-500">Total Time</p>
-                <p className="text-lg font-bold text-blue-900">{concurrency.total_time_ms}ms</p>
+                <p className="text-lg font-bold text-blue-900">{concurrency.total_time_ms ?? '—'}ms</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase font-bold text-blue-500">Avg Latency</p>
-                <p className="text-lg font-bold text-blue-900">{concurrency.avg_latency_ms}ms</p>
+                <p className="text-lg font-bold text-blue-900">{concurrency.avg_latency_ms ?? '—'}ms</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase font-bold text-blue-500">P95 Latency</p>
@@ -260,12 +290,13 @@ function BenchmarkPanel() {
               </div>
               <div>
                 <p className="text-[10px] uppercase font-bold text-blue-500">Concurrent Users</p>
-                <p className="text-lg font-bold text-blue-900">{concurrency.n_users}</p>
+                <p className="text-lg font-bold text-blue-900">{concurrency.n_users ?? '—'}</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase font-bold text-blue-500">Status</p>
                 <p className={`text-lg font-bold capitalize ${
-                  concurrency.status === 'success' ? 'text-green-700' : 'text-red-600'
+                  concurrency.status === 'success' ? 'text-green-700' : 
+                  concurrency.status === 'simulating' ? 'text-blue-600 animate-pulse' : 'text-red-600'
                 }`}>{concurrency.status}</p>
               </div>
             </div>

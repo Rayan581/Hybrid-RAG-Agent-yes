@@ -138,32 +138,42 @@ async def run_benchmark(n_runs: int = 3):
                 except Exception as e:
                     yield f"data: {_json.dumps({'query': query, 'status': 'error', 'error': str(e), 'type': test_type})}\n\n"
 
-        # ── Memory / Recall test (stateful multi-turn) ──────────────────────
+
+        # ── CRM / Cross-Session Recall test (Persistence verification) ─────
         for _ in range(n_runs):
-            session_id = str(_uuid.uuid4())
+            test_user_id = f"test-bench-{_uuid.uuid4().hex[:8]}"
+            session_id_1 = str(_uuid.uuid4())
+            session_id_2 = str(_uuid.uuid4())
+            
             try:
-                # Prime: tell the bot what the user wants
-                await llm_engine.generate(session_id=session_id, user_message=MEMORY_TEST_PRIME)
+                # Part 1: Registration session
+                # We need to manually initialize the session with the user_id
+                get_or_create_session(session_id_1, user_id=test_user_id)
+                
+                name = "Awwab" if _ % 2 == 0 else "Uwaid"
+                pref = "HP laptops" if _ % 2 == 0 else "Gaming PC"
+                
+                prime_msg = f"My name is {name} and I am looking for a {pref}."
+                await llm_engine.generate(session_id=session_id_1, user_message=prime_msg)
 
-                # Filler turns: push the prime out of short-term focus
-                for filler_q in MEMORY_FILLER:
-                    await llm_engine.generate(session_id=session_id, user_message=filler_q)
-
-                # Recall: ask what was the original item
+                # Part 2: Recall session (new session_id, same user_id)
+                get_or_create_session(session_id_2, user_id=test_user_id)
+                await refresh_crm_block(session_id_2)
+                
                 t0 = time.perf_counter()
+                recall_query = "What is my name and what kind of product was I looking for previously?"
                 result = await asyncio.wait_for(
-                    llm_engine.generate(session_id=session_id, user_message=MEMORY_RECALL_QUERY),
+                    llm_engine.generate(session_id=session_id_2, user_message=recall_query),
                     timeout=60.0,
                 )
                 latency = (time.perf_counter() - t0) * 1000
-
+                
                 resp_lower = result["response"].lower()
-                # Pass only if the model recalls the specific primed product
-                passed = "galaxy tab" in resp_lower or "samsung galaxy" in resp_lower
-
-                yield f"data: {_json.dumps({'query': MEMORY_RECALL_QUERY, 'latency_ms': round(latency, 1), 'status': 'ok', 'passed': passed, 'type': 'memory', 'response_preview': result['response'][:80] + '...'})}\n\n"
+                passed = name.lower() in resp_lower and (pref.lower() in resp_lower or "laptop" in resp_lower or "gaming" in resp_lower)
+                
+                yield f"data: {_json.dumps({'query': recall_query, 'latency_ms': round(latency, 1), 'status': 'ok', 'passed': passed, 'type': 'crm', 'response_preview': result['response'][:80] + '...'})}\n\n"
             except Exception as e:
-                yield f"data: {_json.dumps({'query': MEMORY_RECALL_QUERY, 'status': 'error', 'error': str(e), 'type': 'memory'})}\n\n"
+                yield f"data: {_json.dumps({'query': 'CRM Recall Test', 'status': 'error', 'error': str(e), 'type': 'crm'})}\n\n"
 
         yield f"data: {_json.dumps({'done': True})}\n\n"
 
@@ -174,56 +184,72 @@ async def run_benchmark(n_runs: int = 3):
 async def concurrency_test(n_users: int = 5):
     """
     Simulates multiple users hitting the LLM simultaneously.
-    Returns total time, per-user latencies, avg, p95 and error count.
+    Streams results via SSE for live frontend feedback.
     """
     from src.engine.llm import llm_engine
     import uuid as _uuid
+    import json as _json
     import statistics as _stats
 
-    query   = "What is the best Samsung phone under 50000 PKR?"
-    sessions = [str(_uuid.uuid4()) for _ in range(n_users)]
+    async def _stream():
+        query   = "What is the best Samsung phone under 50000 PKR?"
+        sessions = [str(_uuid.uuid4()) for _ in range(n_users)]
 
-    t0      = time.perf_counter()
-    tasks   = [llm_engine.generate(sid, query) for sid in sessions]
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-    total_time = (time.perf_counter() - t0) * 1000
+        t0      = time.perf_counter()
+        
+        # We wrap each task to capture its successful completion individually
+        async def _run_one(idx, sid):
+            st = time.perf_counter()
+            try:
+                r = await llm_engine.generate(sid, query)
+                lat = (time.perf_counter() - st) * 1000
+                return {
+                    "user_index": idx + 1,
+                    "session_id": sid[:8] + "…",
+                    "latency_ms": round(lat, 1),
+                    "status": "ok",
+                    "response_preview": r.get("response", "")[:60] + "…",
+                    "lat_raw": lat
+                }
+            except Exception as e:
+                return {
+                    "user_index": idx + 1,
+                    "session_id": sid[:8] + "…",
+                    "latency_ms": None,
+                    "status": "error",
+                    "response_preview": str(e),
+                    "lat_raw": 0
+                }
 
-    per_user = []
-    latencies = []
-    errors = 0
-    for i, r in enumerate(results):
-        if isinstance(r, dict):
-            lat = r.get("latency_ms", 0)
-            latencies.append(lat)
-            per_user.append({
-                "user_index": i + 1,
-                "session_id": sessions[i][:8] + "…",
-                "latency_ms": round(lat, 1),
-                "status": "ok",
-                "response_preview": r.get("response", "")[:60] + "…",
-            })
-        else:
-            errors += 1
-            per_user.append({
-                "user_index": i + 1,
-                "session_id": sessions[i][:8] + "…",
-                "latency_ms": None,
-                "status": "error",
-                "response_preview": str(r),
-            })
+        tasks = [_run_one(i, sid) for i, sid in enumerate(sessions)]
+        
+        per_user = []
+        # as_completed allows us to stream results as they finish
+        for next_task in asyncio.as_completed(tasks):
+            result = await next_task
+            per_user.append(result)
+            # Yield individual result
+            yield f"data: {_json.dumps({'individual_result': result})}\n\n"
 
-    avg_lat = round(_stats.mean(latencies), 1) if latencies else 0
-    p95_lat = round(sorted(latencies)[int(len(latencies) * 0.95)], 1) if latencies else 0
+        total_time = (time.perf_counter() - t0) * 1000
+        latencies = [r["lat_raw"] for r in per_user if r["status"] == "ok"]
+        errors = sum(1 for r in per_user if r["status"] == "error")
+        avg_lat = round(_stats.mean(latencies), 1) if latencies else 0
+        p95_lat = round(sorted(latencies)[int(len(latencies) * 0.95)], 1) if len(latencies) > 1 else (latencies[0] if latencies else 0)
 
-    return {
-        "n_users":        n_users,
-        "total_time_ms":  round(total_time, 1),
-        "avg_latency_ms": avg_lat,
-        "p95_latency_ms": p95_lat,
-        "errors":         errors,
-        "status":         "success" if errors == 0 else "partial_failure",
-        "per_user":       per_user,
-    }
+        # Final summary
+        yield f"data: {_json.dumps({
+            'done': True,
+            'n_users':        n_users,
+            'total_time_ms':  round(total_time, 1),
+            'avg_latency_ms': avg_lat,
+            'p95_latency_ms': p95_lat,
+            'errors':         errors,
+            'status':         'success' if errors == 0 else 'partial_failure',
+            'per_user':       per_user,
+        })}\n\n"
+
+    return StreamingResponse(_stream(), media_type="text/event-stream")
 
 
 @admin_router.get("/benchmark/history")

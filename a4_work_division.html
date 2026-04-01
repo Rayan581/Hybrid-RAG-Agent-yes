@@ -260,17 +260,22 @@
     </div>
   </div>
 
-  <!-- Uwaid — now has Awwab's original work -->
+  <!-- Awwab — now has Uwaid's original work -->
   <div class="member-card">
     <div class="member-header">
       <div class="avatar av-purple">UW</div>
       <div>
-        <p class="member-name">Uwaid — performance, testing, and README</p>
-        <p class="member-role">Owns: engine.py · STT/LLM/TTS pipeline · models/</p>
+        <p class="member-name">Awwab — CRM Tool, performance, and testing</p>
+        <p class="member-role">Owns: engine.py · crm.py · benchmark_full.py · README.md</p>
       </div>
     </div>
 
     <div class="tasks">
+      <div class="task t-purple">
+        <p class="task-title">CRM tool (mandatory) <span class="badge b-new">new</span></p>
+        <p class="task-desc">Implement <code>crm.py</code> with <code>get_user_info</code> / <code>update_user_info</code> / <code>list_users</code> backed by a SQLite database. The LLM must be able to call this to greet returning users by name and recall past preferences.</p>
+      </div>
+
       <div class="task t-purple">
         <p class="task-title">End-to-end latency benchmarking <span class="badge b-extend">extend</span></p>
         <p class="task-desc">Extend <code>benchmark_full.py</code> to separately measure: retrieval time, tool call latency, and total end-to-end time for RAG queries vs plain queries vs tool-invoking queries. Report p50/p95/min/max for each. Identify and document the bottleneck.</p>
@@ -293,7 +298,7 @@
 
       <div class="task t-purple">
         <p class="task-title">README for A4 <span class="badge b-new">new</span></p>
-        <p class="task-desc">Write all required README sections: architecture diagram, document collection details, tools description with input schemas and example invocations, real-time optimisation explanation with actual benchmark numbers, and known limitations. This requires pulling real data from Rayan and Awwab's implementations — cannot be written until the system works.</p>
+        <p class="task-desc">Write all required README sections: architecture diagram, document collection details, tools description with input schemas and example invocations, real-time optimisation explanation with actual benchmark numbers, and known limitations. This requires pulling real data from Rayan and Uwaid's implementations — cannot be written until the system works.</p>
       </div>
     </div>
 
@@ -303,13 +308,13 @@
     </div>
   </div>
 
-  <!-- Awwab — now has Uwaid's original work -->
+  <!-- Uwaid — now has Awwab's original work -->
   <div class="member-card">
     <div class="member-header">
       <div class="avatar av-coral">RY</div>
       <div>
-        <p class="member-name">Awwab — tool orchestrator + all 4 tools</p>
-        <p class="member-role">Owns: frontend/ · database.py · locustfile.py · benchmark_full.py</p>
+        <p class="member-name">Uwaid — tool orchestrator + core tools</p>
+        <p class="member-role">Owns: orchestrator.py · tools/ (excl. CRM) · engine.py (orchestrator logic)</p>
       </div>
     </div>
 
@@ -317,11 +322,6 @@
       <div class="task t-coral">
         <p class="task-title">Tool orchestrator with function-calling loop <span class="badge b-new">new</span></p>
         <p class="task-desc">Build <code>orchestrator.py</code> with tool registration, JSON schema exposure, <code>&lt;tool_call&gt;</code> tag parsing, async dispatch with 5 s timeout, and error handling. Wire the two-pass loop into <code>engine.py</code>: first LLM pass may emit a tool call; result is fed back for the final streamed response.</p>
-      </div>
-
-      <div class="task t-coral">
-        <p class="task-title">CRM tool (mandatory) <span class="badge b-new">new</span></p>
-        <p class="task-desc">Implement <code>crm.py</code> with <code>get_user_info</code> / <code>update_user_info</code> / <code>list_users</code> backed by a JSON file with SQLite fallback. The LLM must be able to call this to greet returning users by name and recall past preferences.</p>
       </div>
 
       <div class="task t-coral">
@@ -349,145 +349,10 @@
   <!-- Integration note -->
   <div class="integration-box">
     <p class="int-label">Integration dependency order</p>
-    <p>Rayan's indexer must produce a populated ChromaDB before Awwab can test RAG injection. Awwab's tool orchestrator must be wired before Uwaid can benchmark tool call latency. Plan a mid-point sync where Rayan and Awwab integrate their modules into a single working branch before Uwaid begins benchmarking.</p>
+    <p>Rayan's indexer must produce a populated ChromaDB before Uwaid can test RAG injection. Uwaid's tool orchestrator must be wired before Awwab can benchmark tool call latency. Plan a mid-point sync where Rayan and Uwaid integrate their modules into a single working branch before Awwab begins benchmarking.</p>
   </div>
 
-  <!-- ── Timeline ── -->
-  <div class="timeline-section" style="margin-top: 2.5rem;">
-    <p class="section-title">Project timeline</p>
 
-    <div class="timeline">
-      <div class="tl-track"></div>
-
-      <!-- Phase 1 -->
-      <div class="phase-label">Phase 1 — foundation (days 1–4)</div>
-
-      <div class="tl-row">
-        <div class="tl-week">Day 1–2</div>
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#34d399;"></div></div>
-        <div class="tl-cards">
-          <div class="tl-card aw">
-            <div class="tl-card-header"><span class="tl-who aw">Rayan</span><span class="tl-task-name">Document corpus + indexer</span></div>
-            <p class="tl-task-note">Write 50+ Daraz-domain <code>.txt</code> docs, build <code>indexer.py</code>, verify ChromaDB is populated with correct chunk counts. This must finish first — everyone else is blocked until the vector DB exists.</p>
-          </div>
-          <div class="tl-card ry">
-            <div class="tl-card-header"><span class="tl-who ry">Awwab</span><span class="tl-task-name">Tool orchestrator skeleton</span></div>
-            <p class="tl-task-note">Build <code>orchestrator.py</code> with tool registration, schema exposure and <code>&lt;tool_call&gt;</code> parsing. Can run in isolation with mock tools before real ones are ready.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="tl-row">
-        <div class="tl-week">Day 3–4</div>
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#34d399;"></div></div>
-        <div class="tl-cards">
-          <div class="tl-card aw">
-            <div class="tl-card-header"><span class="tl-who aw">Rayan</span><span class="tl-task-name">Retriever + context injection</span></div>
-            <p class="tl-task-note">Build <code>retriever.py</code> with LRU embedding cache. Wire top-4 chunk injection into the conversation manager with overflow truncation.</p>
-          </div>
-          <div class="tl-card ry">
-            <div class="tl-card-header"><span class="tl-who ry">Awwab</span><span class="tl-task-name">CRM + weather + calculator tools</span></div>
-            <p class="tl-task-note">Implement all four tools as standalone async functions. Unit-test each one independently before wiring into the orchestrator.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sync 1 -->
-      <div class="tl-row">
-        <div class="tl-week" style="color:#818cf8;">Day 4 EOD</div>
-        <div class="tl-dot-wrap"><div class="tl-dot sync" style="background:#6366f1;"></div></div>
-        <div class="tl-cards">
-          <div class="tl-card sync-card">
-            <div class="tl-card-header"><span class="tl-who sync">Sync 1</span><span class="tl-task-name">Rayan + Awwab merge into main branch</span></div>
-            <p class="tl-task-note">Retriever and tool orchestrator both land in the codebase together. Smoke-test: one RAG query returns grounded chunks; one tool call parses and executes. Uwaid cannot start benchmarking until this passes.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Phase 2 -->
-      <div class="phase-label" style="margin-top: 8px;">Phase 2 — integration (days 5–8)</div>
-
-      <div class="tl-row">
-        <div class="tl-week">Day 5–6</div>
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#34d399;"></div></div>
-        <div class="tl-cards">
-          <div class="tl-card aw">
-            <div class="tl-card-header"><span class="tl-who aw">Rayan</span><span class="tl-task-name">Docker + environment updates</span></div>
-            <p class="tl-task-note">Mount volumes for ChromaDB, docs folder and CRM JSON. Update <code>requirements.txt</code>. Full <code>docker compose up --build</code> must succeed with all new dependencies.</p>
-          </div>
-          <div class="tl-card ry">
-            <div class="tl-card-header"><span class="tl-who ry">Awwab</span><span class="tl-task-name">System prompt engineering + two-pass loop</span></div>
-            <p class="tl-task-note">Redesign the system prompt in <code>engine.py</code> to expose tool schemas and instruct Qwen 2.5 to emit parseable <code>&lt;tool_call&gt;</code> JSON. Wire the two-pass loop: first LLM pass → tool dispatch → second LLM pass for final streamed response.</p>
-            <p class="tl-dep">Needs Sync 1 merged before starting</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="tl-row">
-        <div class="tl-week">Day 7–8</div>
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#a78bfa;"></div></div>
-        <div class="tl-cards">
-          <div class="tl-card uw">
-            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">Embedding cache + response caching</span></div>
-            <p class="tl-task-note">Implement LRU cache for query embeddings and 10-min TTL cache for weather tool results. Baseline latency numbers must be recorded before caching so the before/after comparison is meaningful.</p>
-            <p class="tl-dep">Needs Sync 1 merged — requires a working retriever to benchmark</p>
-          </div>
-          <div class="tl-card ry">
-            <div class="tl-card-header"><span class="tl-who ry">Awwab</span><span class="tl-task-name">Product search tool + prompt tuning</span></div>
-            <p class="tl-task-note">Add the SQLite product search tool. Iterate on prompt tuning until Qwen reliably calls tools — expect 2–3 revision cycles. This is the highest-risk task; buffer time here.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sync 2 -->
-      <div class="tl-row">
-        <div class="tl-week" style="color:#818cf8;">Day 8 EOD</div>
-        <div class="tl-dot-wrap"><div class="tl-dot sync" style="background:#6366f1;"></div></div>
-        <div class="tl-cards">
-          <div class="tl-card sync-card">
-            <div class="tl-card-header"><span class="tl-who sync">Sync 2</span><span class="tl-task-name">Full system end-to-end test</span></div>
-            <p class="tl-task-note">All three members test together: RAG grounded answer, CRM get + update, weather call, calculator call. Fix any integration bugs before Uwaid begins formal benchmarking and Postman collection work.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Phase 3 -->
-      <div class="phase-label" style="margin-top: 8px;">Phase 3 — polish &amp; submission (days 9–12)</div>
-
-      <div class="tl-row">
-        <div class="tl-week">Day 9–10</div>
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#a78bfa;"></div></div>
-        <div class="tl-cards">
-          <div class="tl-card uw">
-            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">Latency benchmarking (formal)</span></div>
-            <p class="tl-task-note">Run <code>benchmark_full.py</code> for RAG-only, tool-only and combined queries. Collect p50/p95/min/max for each path. Identify the bottleneck and document it.</p>
-            <p class="tl-dep">Needs Sync 2 — system must be stable before numbers mean anything</p>
-          </div>
-          <div class="tl-card uw">
-            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">Concurrent user stress test</span></div>
-            <p class="tl-task-note">Update <code>locustfile.py</code> for 2+ concurrent users each triggering RAG + a tool call. Verify CRM session isolation. Report throughput and degradation.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="tl-row">
-        <div class="tl-week">Day 11–12</div>
-        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#a78bfa;"></div></div>
-        <div class="tl-cards">
-          <div class="tl-card uw">
-            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">Postman collection + video demo</span></div>
-            <p class="tl-task-note">Add Postman requests covering all new endpoints. Record the 3–5 min demo video: one RAG conversation, one CRM scenario, one with two tools. Upload unlisted to YouTube.</p>
-            <p class="tl-dep">Needs real benchmark numbers from Day 9–10 to populate README</p>
-          </div>
-          <div class="tl-card uw">
-            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">README for A4</span></div>
-            <p class="tl-task-note">Write all required sections using real data pulled from Rayan and Awwab's implementations: architecture diagram, doc collection details, tool schemas with example invocations, benchmark table, known limitations.</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
 
 </div>
 </body>
