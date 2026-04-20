@@ -24,7 +24,7 @@ from src.config import (
     REDIS_URL,
     REDIS_SESSION_TTL,
     build_system_prompt,
-    SLIDING_WINDOW_SIZE,
+    CONTEXT_BUDGET_TOKENS,
     MAX_TURNS,
     WELCOME_MESSAGE,
 )
@@ -428,6 +428,29 @@ def get_welcome_message(session_id: str) -> dict:
     }
 
 
+def _fit_history_to_budget(history: list, budget_tokens: int) -> list:
+    """
+    Return the longest suffix of `history` whose estimated token count is
+    within `budget_tokens`.  Trims from the oldest messages first so the
+    model always sees the most recent context.
+    """
+    from src.conversation.compaction import estimate_tokens
+    if estimate_tokens(history) <= budget_tokens:
+        return history  # already fits — no trim needed
+
+    # Walk from the back, accumulating messages until we hit the budget
+    selected = []
+    running_tokens = 0
+    for msg in reversed(history):
+        msg_tokens = estimate_tokens([msg])
+        if running_tokens + msg_tokens > budget_tokens:
+            break
+        selected.append(msg)
+        running_tokens += msg_tokens
+
+    return list(reversed(selected))
+
+
 def build_inference_payload(
     session_id: str,
     new_user_message: str,
@@ -435,6 +458,10 @@ def build_inference_payload(
 ) -> list:
     """
     Builds the messages list for a single LLM call.
+
+    History is trimmed to CONTEXT_BUDGET_TOKENS using a token-budget-aware
+    sliding window (oldest messages dropped first) instead of a fixed turn
+    count, so we never blow the context window regardless of message length.
 
     RAG context is ephemeral — injected into a copy of the system message
     used ONLY for this call. It is NOT appended to session["history"].
@@ -464,7 +491,8 @@ def build_inference_payload(
         "content": crm_block + build_system_prompt(session["state"], rag_context=rag_context),
     }
 
-    trimmed = session["history"][-SLIDING_WINDOW_SIZE:]
+    # Token-budget-aware trim: keep the most recent messages that fit
+    trimmed = _fit_history_to_budget(session["history"], CONTEXT_BUDGET_TOKENS)
     return [system_msg] + trimmed + [{"role": "user", "content": new_user_message}]
 
 

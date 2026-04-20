@@ -127,6 +127,7 @@ export default function useVoiceChat({ token } = {}) {
               }]
             })
           } else {
+            // done frame: finalise message and attach latency
             setMessages(prev => {
               const last = prev[prev.length - 1]
               if (last && last.streaming) {
@@ -134,11 +135,15 @@ export default function useVoiceChat({ token } = {}) {
                   ...last,
                   content: msg.full_response || last.content,
                   streaming: false,
-                  latency_ms: msg.latency_ms,
+                  latency_ms: msg.latency_ms ?? null,
                 }]
               }
               return prev
             })
+            // Surface session state from done frame
+            if (msg.status) setStatus(msg.status)
+            if (msg.turns_used !== undefined) setTurnsUsed(msg.turns_used)
+            if (msg.turns_max  !== undefined) setTurnsMax(msg.turns_max)
             setIsLoading(false)
           }
           return

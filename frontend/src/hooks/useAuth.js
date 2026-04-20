@@ -33,6 +33,7 @@ export default function useAuth() {
         if (cancelled) return
         const jwt = data?.access_token || null
         setToken(jwt)
+        if (jwt) sessionStorage.setItem('auth_token', jwt)
         setIsAdmin(jwt ? _decodeAdmin(jwt) : false)
         setAuthState('authenticated')
       })
@@ -56,6 +57,7 @@ export default function useAuth() {
       // data.access_token is also returned in the response body
       const jwt = data?.access_token || null
       setToken(jwt)
+      if (jwt) sessionStorage.setItem('auth_token', jwt)
       setIsAdmin(jwt ? _decodeAdmin(jwt) : false)
       setAuthState('authenticated')
       return data
@@ -69,6 +71,7 @@ export default function useAuth() {
 
   const doLogout = useCallback(async () => {
     await apiLogout().catch(() => {})
+    sessionStorage.removeItem('auth_token')
     setAuthState('unauthenticated')
     setToken(null)
     setIsAdmin(false)

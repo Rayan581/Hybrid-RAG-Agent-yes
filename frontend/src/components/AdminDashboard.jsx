@@ -13,9 +13,14 @@ import {
 const API_BASE = import.meta.env.VITE_API_BASE_URL || ''
 
 async function adminFetch(path, options = {}) {
+  const token = sessionStorage.getItem('auth_token')
   const res = await fetch(API_BASE + '/admin' + path, {
     credentials: 'include',
-    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      ...(options.headers || {}),
+    },
     ...options,
   })
   if (!res.ok) {
@@ -238,23 +243,66 @@ function BenchmarkPanel() {
         </div>
 
         {concurrency && (
-          <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-100 grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div>
-              <p className="text-[10px] uppercase font-bold text-blue-500">Total Time</p>
-              <p className="text-lg font-bold text-blue-900">{concurrency.total_time_ms}ms</p>
+          <div className="mb-6 space-y-4">
+            {/* Summary cards */}
+            <div className="p-4 bg-blue-50 rounded-xl border border-blue-100 grid grid-cols-2 sm:grid-cols-5 gap-4">
+              <div>
+                <p className="text-[10px] uppercase font-bold text-blue-500">Total Time</p>
+                <p className="text-lg font-bold text-blue-900">{concurrency.total_time_ms}ms</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-bold text-blue-500">Avg Latency</p>
+                <p className="text-lg font-bold text-blue-900">{concurrency.avg_latency_ms}ms</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-bold text-blue-500">P95 Latency</p>
+                <p className="text-lg font-bold text-blue-900">{concurrency.p95_latency_ms ?? '—'}ms</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-bold text-blue-500">Concurrent Users</p>
+                <p className="text-lg font-bold text-blue-900">{concurrency.n_users}</p>
+              </div>
+              <div>
+                <p className="text-[10px] uppercase font-bold text-blue-500">Status</p>
+                <p className={`text-lg font-bold capitalize ${
+                  concurrency.status === 'success' ? 'text-green-700' : 'text-red-600'
+                }`}>{concurrency.status}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-[10px] uppercase font-bold text-blue-500">Avg Latency</p>
-              <p className="text-lg font-bold text-blue-900">{concurrency.avg_latency_ms}ms</p>
-            </div>
-            <div>
-              <p className="text-[10px] uppercase font-bold text-blue-500">Concurrent Users</p>
-              <p className="text-lg font-bold text-blue-900">{concurrency.n_users}</p>
-            </div>
-            <div>
-              <p className="text-[10px] uppercase font-bold text-blue-500">Status</p>
-              <p className="text-lg font-bold text-blue-900 capitalize">{concurrency.status}</p>
-            </div>
+
+            {/* Per-user breakdown */}
+            {concurrency.per_user?.length > 0 && (
+              <div className="overflow-x-auto rounded-xl border border-blue-100">
+                <table className="w-full text-xs">
+                  <thead className="bg-blue-50 text-blue-500 uppercase">
+                    <tr>
+                      {['User', 'Session', 'Latency', 'Status', 'Preview'].map(h => (
+                        <th key={h} className="px-3 py-2 text-left font-semibold">{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-blue-50">
+                    {concurrency.per_user.map((u) => (
+                      <tr key={u.user_index} className="hover:bg-blue-50/50">
+                        <td className="px-3 py-2 font-bold text-blue-800">#{u.user_index}</td>
+                        <td className="px-3 py-2 font-mono text-gray-500">{u.session_id}</td>
+                        <td className="px-3 py-2 text-gray-700">
+                          {u.latency_ms != null ? `${u.latency_ms}ms` : '—'}
+                        </td>
+                        <td className="px-3 py-2">
+                          <span className={`px-2 py-0.5 rounded-full font-bold text-[10px] ${
+                            u.status === 'ok' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'
+                          }`}>{u.status.toUpperCase()}</span>
+                        </td>
+                        <td className="px-3 py-2 text-gray-400 italic max-w-[200px] truncate">
+                          {u.response_preview}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
 

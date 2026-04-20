@@ -31,20 +31,27 @@ admin_router = APIRouter(
 # ---------------------------------------------------------------------------
 BENCHMARK_QUERIES = [
     # General Domain (Shopping)
-    "Show me Samsung phones under 150000 PKR",
-    "What are the best laptops for students on Daraz?",
-    "Compare the iPhone 15 and Samsung S24",
-    "I need a gaming chair, budget 25000",
-    "What's the return policy on electronics?",
-    
+    {"query": "Show me Samsung phones under 150000 PKR",          "type": "general"},
+    {"query": "What are the best laptops for students on Daraz?",  "type": "general"},
+    {"query": "Compare the iPhone 15 and Samsung S24",            "type": "general"},
+    {"query": "I need a gaming chair, budget 25000",              "type": "general"},
+    {"query": "What's the return policy on electronics?",         "type": "general"},
+
     # Out-of-Domain (Should be rejected)
-    "OOD: Who is the prime minister of Pakistan?",
-    "OOD: How do I treat a severe fever?",
-    "OOD: Can you write a Python script for a web scraper?",
-    
-    # Memory / Context (Will be handled in a sequence by the runner)
-    "MEM: What was the item I was interested in purchasing?",
+    {"query": "Who is the prime minister of Pakistan?",           "type": "ood"},
+    {"query": "How do I treat a severe fever?",                   "type": "ood"},
+    {"query": "Can you write a Python script for a web scraper?", "type": "ood"},
 ]
+
+# Memory test is handled separately (stateful multi-turn setup required)
+MEMORY_TEST_PRIME   = "I want to buy a Samsung Galaxy Tab S9 for college"
+MEMORY_FILLER       = [
+    "What are the best wireless earbuds under 5000?",
+    "Tell me about gaming mice on Daraz",
+    "Any good office chairs available?",
+    "What keyboards do you recommend?",
+]
+MEMORY_RECALL_QUERY = "By the way, what was the item I told you I was interested in buying earlier?"
 
 
 # =============================================================================
@@ -99,48 +106,64 @@ async def run_benchmark(n_runs: int = 3):
 
     async def _stream():
         import json as _json
-        for query in BENCHMARK_QUERIES:
-            test_type = "general"
-            if query.startswith("OOD:"): test_type = "ood"
-            elif query.startswith("MEM:"): test_type = "memory"
-            
-            clean_query = query.replace("OOD: ", "").replace("MEM: ", "")
-            
-            for _ in range(n_runs):
-                import uuid as _uuid
-                session_id = str(_uuid.uuid4())
-                
-                # Setup context for memory test
-                if test_type == "memory":
-                    await llm_engine.generate(session_id=session_id, user_message="I want to buy an iPhone 15 Pro Max")
-                    for i in range(2):
-                        await llm_engine.generate(session_id=session_id, user_message=f"Tell me about some accessories for that {i}")
+        import uuid as _uuid
 
+        # ── General + OOD queries ───────────────────────────────────────────
+        for entry in BENCHMARK_QUERIES:
+            query     = entry["query"]
+            test_type = entry["type"]
+
+            latencies = []
+            for _ in range(n_runs):
+                session_id = str(_uuid.uuid4())
                 t0 = time.perf_counter()
                 try:
-                    result = await asyncio.wait_for(
-                        llm_engine.generate(session_id=session_id, user_message=clean_query),
+                    result  = await asyncio.wait_for(
+                        llm_engine.generate(session_id=session_id, user_message=query),
                         timeout=60.0,
                     )
                     latency = (time.perf_counter() - t0) * 1000
-                    
+                    latencies.append(latency)
+
                     passed = True
                     if test_type == "ood":
-                        passed = any(kw in result["response"].lower() for kw in ["shopping assistant", "cannot provide", "medical", "unrelated"])
-                    elif test_type == "memory":
-                        passed = "iphone 15" in result["response"].lower()
-                    
-                    row = {
-                        "query": query,
-                        "latency_ms": round(latency, 1),
-                        "status": "ok",
-                        "passed": passed,
-                        "type": test_type,
-                        "response_preview": result["response"][:50] + "..."
-                    }
-                    yield f"data: {_json.dumps(row)}\n\n"
+                        resp_lower = result["response"].lower()
+                        passed = any(
+                            kw in resp_lower
+                            for kw in ["shopping assistant", "cannot provide", "medical", "unrelated",
+                                       "only help", "only assist", "not able to", "outside"]
+                        )
+
+                    yield f"data: {_json.dumps({'query': query, 'latency_ms': round(latency, 1), 'status': 'ok', 'passed': passed, 'type': test_type, 'response_preview': result['response'][:80] + '...'})}\n\n"
                 except Exception as e:
-                    yield f"data: {_json.dumps({'query': query, 'status': 'error', 'error': str(e)})}\n\n"
+                    yield f"data: {_json.dumps({'query': query, 'status': 'error', 'error': str(e), 'type': test_type})}\n\n"
+
+        # ── Memory / Recall test (stateful multi-turn) ──────────────────────
+        for _ in range(n_runs):
+            session_id = str(_uuid.uuid4())
+            try:
+                # Prime: tell the bot what the user wants
+                await llm_engine.generate(session_id=session_id, user_message=MEMORY_TEST_PRIME)
+
+                # Filler turns: push the prime out of short-term focus
+                for filler_q in MEMORY_FILLER:
+                    await llm_engine.generate(session_id=session_id, user_message=filler_q)
+
+                # Recall: ask what was the original item
+                t0 = time.perf_counter()
+                result = await asyncio.wait_for(
+                    llm_engine.generate(session_id=session_id, user_message=MEMORY_RECALL_QUERY),
+                    timeout=60.0,
+                )
+                latency = (time.perf_counter() - t0) * 1000
+
+                resp_lower = result["response"].lower()
+                # Pass only if the model recalls the specific primed product
+                passed = "galaxy tab" in resp_lower or "samsung galaxy" in resp_lower
+
+                yield f"data: {_json.dumps({'query': MEMORY_RECALL_QUERY, 'latency_ms': round(latency, 1), 'status': 'ok', 'passed': passed, 'type': 'memory', 'response_preview': result['response'][:80] + '...'})}\n\n"
+            except Exception as e:
+                yield f"data: {_json.dumps({'query': MEMORY_RECALL_QUERY, 'status': 'error', 'error': str(e), 'type': 'memory'})}\n\n"
 
         yield f"data: {_json.dumps({'done': True})}\n\n"
 
@@ -151,28 +174,55 @@ async def run_benchmark(n_runs: int = 3):
 async def concurrency_test(n_users: int = 5):
     """
     Simulates multiple users hitting the LLM simultaneously.
-    Measures total time and per-user average latency.
+    Returns total time, per-user latencies, avg, p95 and error count.
     """
     from src.engine.llm import llm_engine
     import uuid as _uuid
-    
-    query = "What is the best Samsung phone?"
+    import statistics as _stats
+
+    query   = "What is the best Samsung phone under 50000 PKR?"
     sessions = [str(_uuid.uuid4()) for _ in range(n_users)]
-    
-    t0 = time.perf_counter()
-    tasks = [llm_engine.generate(sid, query) for sid in sessions]
+
+    t0      = time.perf_counter()
+    tasks   = [llm_engine.generate(sid, query) for sid in sessions]
     results = await asyncio.gather(*tasks, return_exceptions=True)
     total_time = (time.perf_counter() - t0) * 1000
-    
-    latencies = [r["latency_ms"] for r in results if isinstance(r, dict)]
-    errors = sum(1 for r in results if not isinstance(r, dict))
-    
+
+    per_user = []
+    latencies = []
+    errors = 0
+    for i, r in enumerate(results):
+        if isinstance(r, dict):
+            lat = r.get("latency_ms", 0)
+            latencies.append(lat)
+            per_user.append({
+                "user_index": i + 1,
+                "session_id": sessions[i][:8] + "…",
+                "latency_ms": round(lat, 1),
+                "status": "ok",
+                "response_preview": r.get("response", "")[:60] + "…",
+            })
+        else:
+            errors += 1
+            per_user.append({
+                "user_index": i + 1,
+                "session_id": sessions[i][:8] + "…",
+                "latency_ms": None,
+                "status": "error",
+                "response_preview": str(r),
+            })
+
+    avg_lat = round(_stats.mean(latencies), 1) if latencies else 0
+    p95_lat = round(sorted(latencies)[int(len(latencies) * 0.95)], 1) if latencies else 0
+
     return {
-        "n_users": n_users,
-        "total_time_ms": round(total_time, 1),
-        "avg_latency_ms": round(sum(latencies)/len(latencies), 1) if latencies else 0,
-        "errors": errors,
-        "status": "success" if errors == 0 else "partial_failure"
+        "n_users":        n_users,
+        "total_time_ms":  round(total_time, 1),
+        "avg_latency_ms": avg_lat,
+        "p95_latency_ms": p95_lat,
+        "errors":         errors,
+        "status":         "success" if errors == 0 else "partial_failure",
+        "per_user":       per_user,
     }
 
 

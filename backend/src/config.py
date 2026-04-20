@@ -7,7 +7,7 @@ import os
 # -----------------------------------------------------------------------------
 # LLM Parameters
 # -----------------------------------------------------------------------------
-MAX_TURNS      = 15
+MAX_TURNS      = 30
 MAX_TOKENS     = 512
 N_CTX          = 2048
 N_THREADS      = 6
@@ -16,7 +16,10 @@ TEMPERATURE    = 0.7
 TOP_P          = 0.9
 REPEAT_PENALTY = 1.1
 
-SLIDING_WINDOW_SIZE = 10  # Last 5 full exchanges
+# Token budget for the sliding context window.
+# Reserve space for the system prompt (~400 tokens) and the model reply (MAX_TOKENS).
+# Everything beyond this is trimmed from the oldest messages first.
+CONTEXT_BUDGET_TOKENS = N_CTX - MAX_TOKENS - 400  # ≈ 1136 tokens usable for history
 
 # RAG Configuration
 RAG_TOP_K = 4
