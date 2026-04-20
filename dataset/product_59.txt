@@ -1,0 +1,13 @@
+Title: Product_59
+Category: Home Appliances > Washing Machine
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_59 by Outfitters is a high-quality item in our Home Appliances collection.
+Detailed Sentiment: Users rate this 4.8/5 based on 603 reviews.
+Deal Alert: Currently on sale for 27,490 PKR (Save 26%).
+---
+Metadata:
+- ProductID: 59
+- Brand: Outfitters
+- Base Price: 37,149 PKR
+- Stock: 249

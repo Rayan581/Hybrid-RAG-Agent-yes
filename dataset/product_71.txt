@@ -1,0 +1,13 @@
+Title: Product_71
+Category: Electronics > Laptop
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_71 by Bata is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 3.4/5 based on 58 reviews.
+Deal Alert: Currently on sale for 59,608 PKR (Save 38%).
+---
+Metadata:
+- ProductID: 71
+- Brand: Bata
+- Base Price: 96,142 PKR
+- Stock: 73

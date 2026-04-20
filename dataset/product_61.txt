@@ -1,0 +1,13 @@
+Title: Product_61
+Category: Beauty > Skincare
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_61 by Service is a high-quality item in our Beauty collection.
+Detailed Sentiment: Users rate this 4.3/5 based on 161 reviews.
+Deal Alert: Currently on sale for 51,183 PKR (Save 42%).
+---
+Metadata:
+- ProductID: 61
+- Brand: Service
+- Base Price: 88,247 PKR
+- Stock: 371

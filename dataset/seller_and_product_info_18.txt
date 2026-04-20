@@ -1,0 +1,13 @@
+Title: Product Review Integrity Rules
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Guide for Buyers: Product Review Integrity Rules.
+
+When browsing, stay aware that sellers must maintain a 90% positive rating to participate in the 'Global Collection' program.
+Observation: dangerous goods including lithium batteries have specific air-freight restrictions in Pakistan
+---
+Metadata:
+- DocID: SE-1069
+- Security: Public
+- Last Reviewed: April 2024

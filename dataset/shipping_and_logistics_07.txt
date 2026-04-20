@@ -1,0 +1,13 @@
+Title: Live Tracking Status Definitions
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Operations Alert: Live Tracking Status Definitions.
+
+Please be advised that customers can choose to pick up items at designated 'Daraz Shops' to save on shipping costs for the upcoming campaign season.
+Observation: standard packaging requires double-bubble wrap for all electronic glass surfaces
+---
+Metadata:
+- DocID: SH-1032
+- Security: Public
+- Last Reviewed: April 2024

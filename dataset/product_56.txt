@@ -1,0 +1,13 @@
+Title: Product_56
+Category: Electronics > Laptop
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_56 by Khaadi is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 3.5/5 based on 658 reviews.
+Deal Alert: Currently on sale for 15,201 PKR (Save 37%).
+---
+Metadata:
+- ProductID: 56
+- Brand: Khaadi
+- Base Price: 24,129 PKR
+- Stock: 479

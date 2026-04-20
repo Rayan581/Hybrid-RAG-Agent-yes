@@ -1,0 +1,13 @@
+Title: Product_34
+Category: Electronics > Laptop
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_34 by Gul Ahmed is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 3.6/5 based on 109 reviews.
+Deal Alert: Currently on sale for 27,244 PKR (Save 39%).
+---
+Metadata:
+- ProductID: 34
+- Brand: Gul Ahmed
+- Base Price: 44,663 PKR
+- Stock: 495

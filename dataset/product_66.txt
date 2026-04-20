@@ -1,0 +1,13 @@
+Title: Product_66
+Category: Electronics > Accessories
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_66 by Haier is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 3.6/5 based on 59 reviews.
+Deal Alert: Currently on sale for 73,228 PKR (Save 47%).
+---
+Metadata:
+- ProductID: 66
+- Brand: Haier
+- Base Price: 138,167 PKR
+- Stock: 470

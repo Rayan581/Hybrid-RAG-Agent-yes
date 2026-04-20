@@ -1,0 +1,11 @@
+Title: Bulk Item Shipping Policy
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Logistics Update: Bulk Item Shipping Policy. customers can choose to pick up items at designated 'Daraz Shops' to save on shipping costs.
+Observation: Additionally, all transactions are logged for audit transparency.
+---
+Metadata:
+- DocID: SH-1038
+- Security: Public
+- Last Reviewed: April 2024

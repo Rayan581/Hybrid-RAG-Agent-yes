@@ -1,0 +1,13 @@
+Title: Product_24
+Category: Fashion > Men
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_24 by Orient is a high-quality item in our Fashion collection.
+Detailed Sentiment: Users rate this 3.9/5 based on 198 reviews.
+Deal Alert: Currently on sale for 120,275 PKR (Save 5%).
+---
+Metadata:
+- ProductID: 24
+- Brand: Orient
+- Base Price: 126,606 PKR
+- Stock: 454

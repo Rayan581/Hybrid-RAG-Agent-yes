@@ -1,0 +1,13 @@
+Title: Product_60
+Category: Beauty > Makeup
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_60 by J. is a high-quality item in our Beauty collection.
+Detailed Sentiment: Users rate this 4.3/5 based on 992 reviews.
+Deal Alert: Currently on sale for 26,290 PKR (Save 1%).
+---
+Metadata:
+- ProductID: 60
+- Brand: J.
+- Base Price: 26,556 PKR
+- Stock: 165

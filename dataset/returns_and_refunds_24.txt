@@ -1,0 +1,13 @@
+Title: Returning Bundles and Freebies
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Customer Guide: Managing Returning Bundles and Freebies.
+
+Step 1: Check your eligibility. For Returning Bundles and Freebies, the core rule is shipping fees are non-refundable unless the return is due to a seller error/faulty product.
+Observation: for Cash on Delivery orders, we typically issue a voucher or wallet credit instead of cash
+---
+Metadata:
+- DocID: RE-1023
+- Security: Public
+- Last Reviewed: April 2024

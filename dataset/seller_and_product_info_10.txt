@@ -1,0 +1,13 @@
+Title: Seller Performance Scoring (SLA)
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Compliance Update - Seller Performance Scoring (SLA).
+
+Following recent audits, brand owners must upload a valid Letter of Authorization (LoA) to the Seller Center is now mandatory for all listings.
+Observation: Daraz Mall items are 100% authentic; if proven otherwise, you get a 2x money-back guarantee
+---
+Metadata:
+- DocID: SE-1061
+- Security: Public
+- Last Reviewed: April 2024

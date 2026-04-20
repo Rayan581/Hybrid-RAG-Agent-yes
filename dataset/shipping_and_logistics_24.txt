@@ -1,0 +1,13 @@
+Title: Import/Global Collection Duties
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Policy: Import/Global Collection Duties and Distribution.
+
+All logistics partners are informed that Global Collection items are subject to customs clearance which is handled by Daraz on your behalf.
+Observation: shipping rates are calculated dynamically based on volumetric weight (L x W x H / 5000)
+---
+Metadata:
+- DocID: SH-1049
+- Security: Public
+- Last Reviewed: April 2024

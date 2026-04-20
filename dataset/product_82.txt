@@ -1,0 +1,13 @@
+Title: Product_82
+Category: Home Appliances > Washing Machine
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_82 by J. is a high-quality item in our Home Appliances collection.
+Detailed Sentiment: Users rate this 3.7/5 based on 36 reviews.
+Deal Alert: Currently on sale for 31,722 PKR (Save 43%).
+---
+Metadata:
+- ProductID: 82
+- Brand: J.
+- Base Price: 55,653 PKR
+- Stock: 215

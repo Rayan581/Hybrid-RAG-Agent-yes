@@ -1,0 +1,13 @@
+Title: Prohibited Items List (Dangerous Goods)
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Compliance Update - Prohibited Items List (Dangerous Goods).
+
+Following recent audits, counterfeit listings will result in permanent store closure and a fine of up to Rs. 50,000 is now mandatory for all listings.
+Observation: refurbished items must clearly state their condition in the title to avoid customer confusion
+---
+Metadata:
+- DocID: SE-1053
+- Security: Public
+- Last Reviewed: April 2024

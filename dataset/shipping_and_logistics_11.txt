@@ -1,0 +1,13 @@
+Title: Daraz Express (DEX) Coverage
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Knowledge Base: Daraz Express (DEX) Coverage
+
+When dealing with Daraz Express (DEX) Coverage, customers frequently ask about latency. Note that shipping rates are calculated dynamically based on volumetric weight (L x W x H / 5000).
+Observation: DEX coverage has now expanded to 50+ cities across Pakistan for same-day dispatch
+---
+Metadata:
+- DocID: SH-1036
+- Security: Public
+- Last Reviewed: April 2024

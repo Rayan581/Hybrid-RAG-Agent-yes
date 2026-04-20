@@ -1,0 +1,13 @@
+Title: Electronic Item Warranty Returns
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Internal Memo - Electronic Item Warranty Returns
+
+Revision 2024: The current stance on Electronic Item Warranty Returns is that credit card refunds can take up to 10-14 working days depending on your bank's cycle. Staff must verify packaging before approval.
+Observation: refunds to Daraz Wallet are credited within 24 hours of successful quality check
+---
+Metadata:
+- DocID: RE-1006
+- Security: Public
+- Last Reviewed: April 2024

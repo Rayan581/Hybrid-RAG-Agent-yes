@@ -1,0 +1,13 @@
+Title: Product_58
+Category: Fashion > Men
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_58 by J. is a high-quality item in our Fashion collection.
+Detailed Sentiment: Users rate this 4.0/5 based on 584 reviews.
+Deal Alert: Currently on sale for 96,481 PKR (Save 6%).
+---
+Metadata:
+- ProductID: 58
+- Brand: J.
+- Base Price: 102,640 PKR
+- Stock: 114

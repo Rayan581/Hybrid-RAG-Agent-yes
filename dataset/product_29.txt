@@ -1,0 +1,13 @@
+Title: Product_29
+Category: Shoes > Men Shoes
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_29 by Gul Ahmed is a high-quality item in our Shoes collection.
+Detailed Sentiment: Users rate this 4.0/5 based on 490 reviews.
+Deal Alert: Currently on sale for 5,563 PKR (Save 32%).
+---
+Metadata:
+- ProductID: 29
+- Brand: Gul Ahmed
+- Base Price: 8,182 PKR
+- Stock: 263

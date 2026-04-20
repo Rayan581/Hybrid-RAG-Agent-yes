@@ -1,0 +1,13 @@
+Title: Product_46
+Category: Shoes > Women Shoes
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_46 by J. is a high-quality item in our Shoes collection.
+Detailed Sentiment: Users rate this 3.2/5 based on 689 reviews.
+Deal Alert: Currently on sale for 75,638 PKR (Save 28%).
+---
+Metadata:
+- ProductID: 46
+- Brand: J.
+- Base Price: 105,054 PKR
+- Stock: 348

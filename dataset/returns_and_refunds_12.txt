@@ -1,0 +1,13 @@
+Title: Voucher Re-issuance after Return
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Internal Memo - Voucher Re-issuance after Return
+
+Revision 2024: The current stance on Voucher Re-issuance after Return is that for Cash on Delivery orders, we typically issue a voucher or wallet credit instead of cash. Staff must verify packaging before approval.
+Observation: the 14-day window starts from the exact time of delivery recorded by the courier
+---
+Metadata:
+- DocID: RE-1011
+- Security: Public
+- Last Reviewed: April 2024

@@ -1,0 +1,13 @@
+Title: Electronic Item Warranty Returns
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: FAQ: Electronic Item Warranty Returns? 
+
+Answer: Absolutely. We ensure that for Electronic Item Warranty Returns, you can expect bundled items must be returned as a complete set, including any free promotional gifts.
+Observation: Additionally, all transactions are logged for audit transparency.
+---
+Metadata:
+- DocID: RE-1020
+- Security: Public
+- Last Reviewed: April 2024

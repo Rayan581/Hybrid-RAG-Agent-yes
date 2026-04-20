@@ -1,0 +1,13 @@
+Title: Counterfeit Product Penalties
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Compliance Update - Counterfeit Product Penalties.
+
+Following recent audits, sellers must maintain a 90% positive rating to participate in the 'Global Collection' program is now mandatory for all listings.
+Observation: counterfeit listings will result in permanent store closure and a fine of up to Rs. 50,000
+---
+Metadata:
+- DocID: SE-1075
+- Security: Public
+- Last Reviewed: April 2024

@@ -1,0 +1,13 @@
+Title: Product_98
+Category: Beauty > Skincare
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_98 by Outfitters is a high-quality item in our Beauty collection.
+Detailed Sentiment: Users rate this 4.8/5 based on 840 reviews.
+Deal Alert: Currently on sale for 110,748 PKR (Save 42%).
+---
+Metadata:
+- ProductID: 98
+- Brand: Outfitters
+- Base Price: 190,945 PKR
+- Stock: 482

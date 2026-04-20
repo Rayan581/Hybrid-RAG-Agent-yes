@@ -1,0 +1,13 @@
+Title: Daraz Mall Authentic Guarantee
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Authenticity Check: Daraz Mall Authentic Guarantee.
+
+To maintain trust, we ensure that review manipulation using bot accounts is detected via IP tracking and will be penalized.
+Observation: counterfeit listings will result in permanent store closure and a fine of up to Rs. 50,000
+---
+Metadata:
+- DocID: SE-1071
+- Security: Public
+- Last Reviewed: April 2024

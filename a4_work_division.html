@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A4 Work Division</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0f1117;
+      --bg-card:     #181c27;
+      --bg-task:     #1e2233;
+      --border:      #2a2f45;
+      --text-1:      #e8eaf6;
+      --text-2:      #8b92b8;
+      --text-3:      #5c6287;
+
+      --teal-bg:     #0d2b26;
+      --teal-title:  #34d399;
+      --teal-task:   #0f2d28;
+      --teal-bar:    #34d399;
+      --teal-av-bg:  #143d35;
+      --teal-av-fg:  #34d399;
+
+      --purple-bg:   #1a1540;
+      --purple-title:#a78bfa;
+      --purple-task: #1c1842;
+      --purple-bar:  #7c3aed;
+      --purple-av-bg:#221c52;
+      --purple-av-fg:#a78bfa;
+
+      --coral-bg:    #2b1510;
+      --coral-title: #fb923c;
+      --coral-task:  #2e1712;
+      --coral-bar:   #ea580c;
+      --coral-av-bg: #3d1c10;
+      --coral-av-fg: #fb923c;
+
+      --badge-new-bg:  rgba(124,58,237,.25);
+      --badge-new-fg:  #c4b5fd;
+      --badge-ext-bg:  rgba(52,211,153,.18);
+      --badge-ext-fg:  #6ee7b7;
+
+      --radius-lg: 14px;
+      --radius-md: 9px;
+      --radius-sm: 6px;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-1);
+      min-height: 100vh;
+      padding: 2.5rem 1rem;
+      line-height: 1.5;
+    }
+
+    .page { max-width: 780px; margin: 0 auto; }
+
+    .page-header { margin-bottom: 2.25rem; }
+    .page-header h1 {
+      font-size: 1.5rem; font-weight: 700; color: var(--text-1);
+      letter-spacing: -0.02em; margin-bottom: 0.35rem;
+    }
+    .page-header p { font-size: 0.875rem; color: var(--text-2); }
+    .divider { height: 1px; background: var(--border); margin-top: 1.25rem; }
+
+    .member-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.25rem;
+    }
+
+    .member-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 1.25rem; padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0; letter-spacing: 0.03em;
+    }
+    .av-teal   { background: var(--teal-av-bg);   color: var(--teal-av-fg); }
+    .av-purple { background: var(--purple-av-bg);  color: var(--purple-av-fg); }
+    .av-coral  { background: var(--coral-av-bg);   color: var(--coral-av-fg); }
+
+    .member-name { font-size: 1rem; font-weight: 600; color: var(--text-1); }
+    .member-role {
+      font-size: 0.78rem; color: var(--text-2); margin-top: 3px;
+      font-family: 'JetBrains Mono', monospace; letter-spacing: 0.01em;
+    }
+
+    .tasks { display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .task { padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid transparent; }
+    .t-teal   { background: var(--teal-task);   border-color: rgba(52,211,153,.12); }
+    .t-purple { background: var(--purple-task);  border-color: rgba(167,139,250,.12); }
+    .t-coral  { background: var(--coral-task);   border-color: rgba(251,146,60,.12); }
+
+    .task-title {
+      font-size: 0.875rem; font-weight: 600; margin-bottom: 6px;
+      display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+    }
+    .t-teal   .task-title { color: var(--teal-title); }
+    .t-purple .task-title { color: var(--purple-title); }
+    .t-coral  .task-title { color: var(--coral-title); }
+
+    .task-desc { font-size: 0.82rem; color: var(--text-2); line-height: 1.65; }
+    .task-desc code {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+      background: rgba(255,255,255,.06); border: 1px solid var(--border);
+      padding: 1px 5px; border-radius: 4px; color: var(--text-1);
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; font-size: 0.68rem;
+      padding: 2px 8px; border-radius: 99px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .b-new    { background: var(--badge-new-bg); color: var(--badge-new-fg); }
+    .b-extend { background: var(--badge-ext-bg); color: var(--badge-ext-fg); }
+
+    .effort-wrap { margin-top: 1.25rem; }
+    .effort-bar { height: 5px; border-radius: 99px; background: rgba(255,255,255,.07); overflow: hidden; }
+    .effort-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+    .effort-label { font-size: 0.76rem; color: var(--text-3); margin-top: 6px; line-height: 1.5; }
+
+    .integration-box {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-left: 3px solid #4f5e99; border-radius: var(--radius-md);
+      padding: 1rem 1.25rem; margin-top: 0.5rem;
+    }
+    .integration-box .int-label {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #6b7ab8; margin-bottom: 6px;
+    }
+    .integration-box p { font-size: 0.82rem; color: var(--text-2); line-height: 1.7; }
+
+    @media (max-width: 500px) {
+      .member-name { font-size: 0.9rem; }
+      .page-header h1 { font-size: 1.25rem; }
+    }
+
+    /* ── Timeline ── */
+    .timeline-section { margin-top: 2rem; }
+    .timeline-section .section-title {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #6b7ab8; margin-bottom: 1.25rem;
+    }
+    .timeline { position: relative; padding-left: 0; }
+    .tl-track {
+      position: absolute; left: 108px; top: 0; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .tl-row {
+      display: flex; align-items: flex-start;
+      gap: 0; margin-bottom: 0; position: relative;
+    }
+    .tl-week {
+      width: 90px; flex-shrink: 0; padding-top: 14px;
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-3); text-align: right;
+      padding-right: 0;
+    }
+    .tl-dot-wrap {
+      width: 36px; flex-shrink: 0; display: flex;
+      justify-content: center; padding-top: 18px; position: relative; z-index: 1;
+    }
+    .tl-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      border: 2px solid var(--bg); flex-shrink: 0;
+    }
+    .tl-dot.sync {
+      width: 14px; height: 14px;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.3);
+    }
+    .tl-cards { flex: 1; padding: 8px 0 20px; display: flex; flex-direction: column; gap: 6px; }
+    .tl-card {
+      border-radius: var(--radius-md); padding: 0.65rem 0.9rem;
+      border: 1px solid transparent;
+    }
+    .tl-card.aw { background: var(--teal-task);   border-color: rgba(52,211,153,.15); }
+    .tl-card.uw { background: var(--purple-task);  border-color: rgba(167,139,250,.15); }
+    .tl-card.ry { background: var(--coral-task);   border-color: rgba(251,146,60,.15); }
+    .tl-card.sync-card {
+      background: rgba(79,94,153,.12);
+      border-color: rgba(79,94,153,.35);
+    }
+    .tl-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+    .tl-who {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 1px 7px; border-radius: 99px;
+    }
+    .tl-who.aw { background: rgba(52,211,153,.15); color: #34d399; }
+    .tl-who.uw { background: rgba(167,139,250,.15); color: #a78bfa; }
+    .tl-who.ry { background: rgba(251,146,60,.15);  color: #fb923c; }
+    .tl-who.sync { background: rgba(99,102,241,.2); color: #818cf8; }
+    .tl-task-name { font-size: 0.82rem; font-weight: 600; color: var(--text-1); }
+    .tl-task-note { font-size: 0.77rem; color: var(--text-2); line-height: 1.5; margin-top: 2px; }
+    .tl-dep {
+      font-size: 0.72rem; color: var(--text-3); margin-top: 3px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .tl-dep::before { content: "↳"; color: #4f5e99; }
+    .phase-label {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #4f5e99; padding: 0.4rem 0 0.5rem 126px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <h1>Assignment 4 — Work Division</h1>
+    <p>RAG pipeline · Tool orchestrator · Performance &amp; testing</p>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Rayan — unchanged -->
+  <div class="member-card">
+    <div class="member-header">
+      <div class="avatar av-teal">AW</div>
+      <div>
+        <p class="member-name">Rayan — RAG pipeline + system integration</p>
+        <p class="member-role">Owns: main.py · routes.py · config.py · context.py · Docker</p>
+      </div>
+    </div>
+
+    <div class="tasks">
+      <div class="task t-teal">
+        <p class="task-title">Offline document indexer <span class="badge b-new">new</span></p>
+        <p class="task-desc">Write <code>indexer.py</code> that walks 50–100 <code>.txt</code> docs, chunks them at 512 tokens with 50-token overlap, embeds with MiniLM-L6-v2, and stores in ChromaDB. Must be re-runnable and report chunk count per doc.</p>
+      </div>
+
+      <div class="task t-teal">
+        <p class="task-title">Retriever class + context injection <span class="badge b-new">new</span></p>
+        <p class="task-desc">Build <code>retriever.py</code> with embedding cache (LRU) so repeated queries skip re-embedding. Wire it into the conversation manager so top-4 chunks are injected before LLM generation. Implement truncation strategy so RAG context never overflows the context window.</p>
+      </div>
+
+      <div class="task t-teal">
+        <p class="task-title">Docker + environment updates <span class="badge b-extend">extend</span></p>
+        <p class="task-desc">Update <code>docker-compose.yml</code> to mount <code>./chroma_db</code>, <code>./docs</code>, and <code>crm_data.json</code>. Add ChromaDB and sentence-transformers to <code>requirements.txt</code>. Verify the full stack builds cleanly with new dependencies.</p>
+      </div>
+
+      <div class="task t-teal">
+        <p class="task-title">Document corpus (50+ docs) <span class="badge b-new">new</span></p>
+        <p class="task-desc">Curate or write 50–100 Daraz-domain <code>.txt</code> files: product FAQs, return policy, shipping zones, payment methods, seller guide, promo rules. These must be coherent enough that retrieval actually helps the LLM answer questions differently than without RAG.</p>
+      </div>
+    </div>
+
+    <div class="effort-wrap">
+      <div class="effort-bar"><div class="effort-fill" style="width: 88%; background: var(--teal-bar);"></div></div>
+      <p class="effort-label">Estimated effort: <strong style="color:var(--text-1)">heavy</strong> — indexer correctness and context truncation logic are the hardest parts to get right</p>
+    </div>
+  </div>
+
+  <!-- Uwaid — now has Awwab's original work -->
+  <div class="member-card">
+    <div class="member-header">
+      <div class="avatar av-purple">UW</div>
+      <div>
+        <p class="member-name">Uwaid — performance, testing, and README</p>
+        <p class="member-role">Owns: engine.py · STT/LLM/TTS pipeline · models/</p>
+      </div>
+    </div>
+
+    <div class="tasks">
+      <div class="task t-purple">
+        <p class="task-title">End-to-end latency benchmarking <span class="badge b-extend">extend</span></p>
+        <p class="task-desc">Extend <code>benchmark_full.py</code> to separately measure: retrieval time, tool call latency, and total end-to-end time for RAG queries vs plain queries vs tool-invoking queries. Report p50/p95/min/max for each. Identify and document the bottleneck.</p>
+      </div>
+
+      <div class="task t-purple">
+        <p class="task-title">Embedding cache + response caching <span class="badge b-new">new</span></p>
+        <p class="task-desc">Implement LRU cache (Python <code>functools.lru_cache</code> or Redis) for query embeddings and for tool results that don't change rapidly (e.g. weather cached for 10 min). Measure before/after latency impact and report the numbers.</p>
+      </div>
+
+      <div class="task t-purple">
+        <p class="task-title">Concurrent user stress test <span class="badge b-extend">extend</span></p>
+        <p class="task-desc">Update <code>locustfile.py</code> to simulate at least 2 concurrent users each triggering RAG + a tool call simultaneously. Verify session isolation still holds (CRM data for user A must not bleed into user B). Report throughput and any degradation.</p>
+      </div>
+
+      <div class="task t-purple">
+        <p class="task-title">Postman collection update + video demo <span class="badge b-extend">extend</span></p>
+        <p class="task-desc">Add Postman requests that exercise: a RAG-grounded answer (verify the response references a doc), a CRM tool call (get + update), and two other tools. Record the 3–5 min demo video showing all three scenarios live.</p>
+      </div>
+
+      <div class="task t-purple">
+        <p class="task-title">README for A4 <span class="badge b-new">new</span></p>
+        <p class="task-desc">Write all required README sections: architecture diagram, document collection details, tools description with input schemas and example invocations, real-time optimisation explanation with actual benchmark numbers, and known limitations. This requires pulling real data from Rayan and Awwab's implementations — cannot be written until the system works.</p>
+      </div>
+    </div>
+
+    <div class="effort-wrap">
+      <div class="effort-bar"><div class="effort-fill" style="width: 80%; background: var(--purple-bar);"></div></div>
+      <p class="effort-label">Estimated effort: <strong style="color:var(--text-1)">significant</strong> — benchmarking meaningfully and writing a complete README based on real numbers takes more time than it looks</p>
+    </div>
+  </div>
+
+  <!-- Awwab — now has Uwaid's original work -->
+  <div class="member-card">
+    <div class="member-header">
+      <div class="avatar av-coral">RY</div>
+      <div>
+        <p class="member-name">Awwab — tool orchestrator + all 4 tools</p>
+        <p class="member-role">Owns: frontend/ · database.py · locustfile.py · benchmark_full.py</p>
+      </div>
+    </div>
+
+    <div class="tasks">
+      <div class="task t-coral">
+        <p class="task-title">Tool orchestrator with function-calling loop <span class="badge b-new">new</span></p>
+        <p class="task-desc">Build <code>orchestrator.py</code> with tool registration, JSON schema exposure, <code>&lt;tool_call&gt;</code> tag parsing, async dispatch with 5 s timeout, and error handling. Wire the two-pass loop into <code>engine.py</code>: first LLM pass may emit a tool call; result is fed back for the final streamed response.</p>
+      </div>
+
+      <div class="task t-coral">
+        <p class="task-title">CRM tool (mandatory) <span class="badge b-new">new</span></p>
+        <p class="task-desc">Implement <code>crm.py</code> with <code>get_user_info</code> / <code>update_user_info</code> / <code>list_users</code> backed by a JSON file with SQLite fallback. The LLM must be able to call this to greet returning users by name and recall past preferences.</p>
+      </div>
+
+      <div class="task t-coral">
+        <p class="task-title">Weather tool <span class="badge b-new">new</span></p>
+        <p class="task-desc">Implement <code>weather.py</code> using OpenWeatherMap free tier via <code>httpx</code>. Handle network errors, invalid city names, and timeouts gracefully — return a plain-language string the LLM can incorporate naturally.</p>
+      </div>
+
+      <div class="task t-coral">
+        <p class="task-title">Calculator + product search tools <span class="badge b-new">new</span></p>
+        <p class="task-desc">Calculator: safe <code>eval</code> with whitelist (no builtins). Product search: query the local SQLite product catalogue (already used for sessions) with fuzzy matching. Both must be registered with full JSON schemas so the LLM knows when to call them.</p>
+      </div>
+
+      <div class="task t-coral">
+        <p class="task-title">System prompt engineering for tool + RAG use <span class="badge b-extend">extend</span></p>
+        <p class="task-desc">Redesign the system prompt in <code>engine.py</code> to (a) expose tool schemas to the model, (b) instruct it to emit <code>&lt;tool_call&gt;</code> JSON when appropriate, and (c) ground answers in retrieved chunks. This requires careful prompt tuning — Qwen 2.5 needs explicit formatting instructions to reliably produce parseable tool calls.</p>
+      </div>
+    </div>
+
+    <div class="effort-wrap">
+      <div class="effort-bar"><div class="effort-fill" style="width: 92%; background: var(--coral-bar);"></div></div>
+      <p class="effort-label">Estimated effort: <strong style="color:var(--text-1)">heaviest</strong> — the two-pass LLM loop and reliable tool-call parsing are the highest-risk parts of the whole assignment</p>
+    </div>
+  </div>
+
+  <!-- Integration note -->
+  <div class="integration-box">
+    <p class="int-label">Integration dependency order</p>
+    <p>Rayan's indexer must produce a populated ChromaDB before Awwab can test RAG injection. Awwab's tool orchestrator must be wired before Uwaid can benchmark tool call latency. Plan a mid-point sync where Rayan and Awwab integrate their modules into a single working branch before Uwaid begins benchmarking.</p>
+  </div>
+
+  <!-- ── Timeline ── -->
+  <div class="timeline-section" style="margin-top: 2.5rem;">
+    <p class="section-title">Project timeline</p>
+
+    <div class="timeline">
+      <div class="tl-track"></div>
+
+      <!-- Phase 1 -->
+      <div class="phase-label">Phase 1 — foundation (days 1–4)</div>
+
+      <div class="tl-row">
+        <div class="tl-week">Day 1–2</div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#34d399;"></div></div>
+        <div class="tl-cards">
+          <div class="tl-card aw">
+            <div class="tl-card-header"><span class="tl-who aw">Rayan</span><span class="tl-task-name">Document corpus + indexer</span></div>
+            <p class="tl-task-note">Write 50+ Daraz-domain <code>.txt</code> docs, build <code>indexer.py</code>, verify ChromaDB is populated with correct chunk counts. This must finish first — everyone else is blocked until the vector DB exists.</p>
+          </div>
+          <div class="tl-card ry">
+            <div class="tl-card-header"><span class="tl-who ry">Awwab</span><span class="tl-task-name">Tool orchestrator skeleton</span></div>
+            <p class="tl-task-note">Build <code>orchestrator.py</code> with tool registration, schema exposure and <code>&lt;tool_call&gt;</code> parsing. Can run in isolation with mock tools before real ones are ready.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-week">Day 3–4</div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#34d399;"></div></div>
+        <div class="tl-cards">
+          <div class="tl-card aw">
+            <div class="tl-card-header"><span class="tl-who aw">Rayan</span><span class="tl-task-name">Retriever + context injection</span></div>
+            <p class="tl-task-note">Build <code>retriever.py</code> with LRU embedding cache. Wire top-4 chunk injection into the conversation manager with overflow truncation.</p>
+          </div>
+          <div class="tl-card ry">
+            <div class="tl-card-header"><span class="tl-who ry">Awwab</span><span class="tl-task-name">CRM + weather + calculator tools</span></div>
+            <p class="tl-task-note">Implement all four tools as standalone async functions. Unit-test each one independently before wiring into the orchestrator.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sync 1 -->
+      <div class="tl-row">
+        <div class="tl-week" style="color:#818cf8;">Day 4 EOD</div>
+        <div class="tl-dot-wrap"><div class="tl-dot sync" style="background:#6366f1;"></div></div>
+        <div class="tl-cards">
+          <div class="tl-card sync-card">
+            <div class="tl-card-header"><span class="tl-who sync">Sync 1</span><span class="tl-task-name">Rayan + Awwab merge into main branch</span></div>
+            <p class="tl-task-note">Retriever and tool orchestrator both land in the codebase together. Smoke-test: one RAG query returns grounded chunks; one tool call parses and executes. Uwaid cannot start benchmarking until this passes.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-label" style="margin-top: 8px;">Phase 2 — integration (days 5–8)</div>
+
+      <div class="tl-row">
+        <div class="tl-week">Day 5–6</div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#34d399;"></div></div>
+        <div class="tl-cards">
+          <div class="tl-card aw">
+            <div class="tl-card-header"><span class="tl-who aw">Rayan</span><span class="tl-task-name">Docker + environment updates</span></div>
+            <p class="tl-task-note">Mount volumes for ChromaDB, docs folder and CRM JSON. Update <code>requirements.txt</code>. Full <code>docker compose up --build</code> must succeed with all new dependencies.</p>
+          </div>
+          <div class="tl-card ry">
+            <div class="tl-card-header"><span class="tl-who ry">Awwab</span><span class="tl-task-name">System prompt engineering + two-pass loop</span></div>
+            <p class="tl-task-note">Redesign the system prompt in <code>engine.py</code> to expose tool schemas and instruct Qwen 2.5 to emit parseable <code>&lt;tool_call&gt;</code> JSON. Wire the two-pass loop: first LLM pass → tool dispatch → second LLM pass for final streamed response.</p>
+            <p class="tl-dep">Needs Sync 1 merged before starting</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-week">Day 7–8</div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#a78bfa;"></div></div>
+        <div class="tl-cards">
+          <div class="tl-card uw">
+            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">Embedding cache + response caching</span></div>
+            <p class="tl-task-note">Implement LRU cache for query embeddings and 10-min TTL cache for weather tool results. Baseline latency numbers must be recorded before caching so the before/after comparison is meaningful.</p>
+            <p class="tl-dep">Needs Sync 1 merged — requires a working retriever to benchmark</p>
+          </div>
+          <div class="tl-card ry">
+            <div class="tl-card-header"><span class="tl-who ry">Awwab</span><span class="tl-task-name">Product search tool + prompt tuning</span></div>
+            <p class="tl-task-note">Add the SQLite product search tool. Iterate on prompt tuning until Qwen reliably calls tools — expect 2–3 revision cycles. This is the highest-risk task; buffer time here.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sync 2 -->
+      <div class="tl-row">
+        <div class="tl-week" style="color:#818cf8;">Day 8 EOD</div>
+        <div class="tl-dot-wrap"><div class="tl-dot sync" style="background:#6366f1;"></div></div>
+        <div class="tl-cards">
+          <div class="tl-card sync-card">
+            <div class="tl-card-header"><span class="tl-who sync">Sync 2</span><span class="tl-task-name">Full system end-to-end test</span></div>
+            <p class="tl-task-note">All three members test together: RAG grounded answer, CRM get + update, weather call, calculator call. Fix any integration bugs before Uwaid begins formal benchmarking and Postman collection work.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase-label" style="margin-top: 8px;">Phase 3 — polish &amp; submission (days 9–12)</div>
+
+      <div class="tl-row">
+        <div class="tl-week">Day 9–10</div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#a78bfa;"></div></div>
+        <div class="tl-cards">
+          <div class="tl-card uw">
+            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">Latency benchmarking (formal)</span></div>
+            <p class="tl-task-note">Run <code>benchmark_full.py</code> for RAG-only, tool-only and combined queries. Collect p50/p95/min/max for each path. Identify the bottleneck and document it.</p>
+            <p class="tl-dep">Needs Sync 2 — system must be stable before numbers mean anything</p>
+          </div>
+          <div class="tl-card uw">
+            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">Concurrent user stress test</span></div>
+            <p class="tl-task-note">Update <code>locustfile.py</code> for 2+ concurrent users each triggering RAG + a tool call. Verify CRM session isolation. Report throughput and degradation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-week">Day 11–12</div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="background:#a78bfa;"></div></div>
+        <div class="tl-cards">
+          <div class="tl-card uw">
+            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">Postman collection + video demo</span></div>
+            <p class="tl-task-note">Add Postman requests covering all new endpoints. Record the 3–5 min demo video: one RAG conversation, one CRM scenario, one with two tools. Upload unlisted to YouTube.</p>
+            <p class="tl-dep">Needs real benchmark numbers from Day 9–10 to populate README</p>
+          </div>
+          <div class="tl-card uw">
+            <div class="tl-card-header"><span class="tl-who uw">Uwaid</span><span class="tl-task-name">README for A4</span></div>
+            <p class="tl-task-note">Write all required sections using real data pulled from Rayan and Awwab's implementations: architecture diagram, doc collection details, tool schemas with example invocations, benchmark table, known limitations.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

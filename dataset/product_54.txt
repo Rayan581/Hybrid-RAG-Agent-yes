@@ -1,0 +1,13 @@
+Title: Product_54
+Category: Beauty > Skincare
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_54 by Dawlance is a high-quality item in our Beauty collection.
+Detailed Sentiment: Users rate this 4.0/5 based on 86 reviews.
+Deal Alert: Currently on sale for 29,427 PKR (Save 3%).
+---
+Metadata:
+- ProductID: 54
+- Brand: Dawlance
+- Base Price: 30,338 PKR
+- Stock: 318

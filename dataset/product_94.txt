@@ -1,0 +1,13 @@
+Title: Product_94
+Category: Beauty > Skincare
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_94 by Orient is a high-quality item in our Beauty collection.
+Detailed Sentiment: Users rate this 4.2/5 based on 381 reviews.
+Deal Alert: Currently on sale for 29,556 PKR (Save 43%).
+---
+Metadata:
+- ProductID: 94
+- Brand: Orient
+- Base Price: 51,854 PKR
+- Stock: 26

@@ -1,0 +1,13 @@
+Title: Product_74
+Category: Electronics > Laptop
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_74 by Orient is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 3.4/5 based on 835 reviews.
+Deal Alert: Currently on sale for 47,009 PKR (Save 43%).
+---
+Metadata:
+- ProductID: 74
+- Brand: Orient
+- Base Price: 82,473 PKR
+- Stock: 105

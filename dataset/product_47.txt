@@ -1,0 +1,13 @@
+Title: Product_47
+Category: Electronics > Laptop
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_47 by Sapphire is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 4.3/5 based on 298 reviews.
+Deal Alert: Currently on sale for 49,719 PKR (Save 46%).
+---
+Metadata:
+- ProductID: 47
+- Brand: Sapphire
+- Base Price: 92,073 PKR
+- Stock: 342

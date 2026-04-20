@@ -1,0 +1,13 @@
+Title: Daraz Wallet Refund Timelines
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: FAQ: Daraz Wallet Refund Timelines? 
+
+Answer: Absolutely. We ensure that for Daraz Wallet Refund Timelines, you can expect refunds to Daraz Wallet are credited within 24 hours of successful quality check.
+Observation: Additionally, all transactions are logged for audit transparency.
+---
+Metadata:
+- DocID: RE-1007
+- Security: Public
+- Last Reviewed: April 2024

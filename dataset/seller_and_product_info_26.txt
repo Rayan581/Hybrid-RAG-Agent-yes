@@ -1,0 +1,13 @@
+Title: Prohibited Items List (Dangerous Goods)
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Authenticity Check: Prohibited Items List (Dangerous Goods).
+
+To maintain trust, we ensure that review manipulation using bot accounts is detected via IP tracking and will be penalized.
+Observation: Additionally, all transactions are logged for audit transparency.
+---
+Metadata:
+- DocID: SE-1077
+- Security: Public
+- Last Reviewed: April 2024

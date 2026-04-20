@@ -1,0 +1,13 @@
+Title: Product_50
+Category: Fashion > Men
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_50 by Service is a high-quality item in our Fashion collection.
+Detailed Sentiment: Users rate this 4.6/5 based on 383 reviews.
+Deal Alert: Currently on sale for 142,429 PKR (Save 28%).
+---
+Metadata:
+- ProductID: 50
+- Brand: Service
+- Base Price: 197,819 PKR
+- Stock: 64

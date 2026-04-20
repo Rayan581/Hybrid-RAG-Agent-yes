@@ -1,0 +1,13 @@
+Title: Product_48
+Category: Electronics > Mobile
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_48 by Dawlance is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 3.9/5 based on 37 reviews.
+Deal Alert: Currently on sale for 31,230 PKR (Save 8%).
+---
+Metadata:
+- ProductID: 48
+- Brand: Dawlance
+- Base Price: 33,946 PKR
+- Stock: 424

@@ -1,0 +1,13 @@
+Title: Wholesale Ordering Procedure
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Guide for Buyers: Wholesale Ordering Procedure.
+
+When browsing, stay aware that counterfeit listings will result in permanent store closure and a fine of up to Rs. 50,000.
+Observation: Additionally, all transactions are logged for audit transparency.
+---
+Metadata:
+- DocID: SE-1055
+- Security: Public
+- Last Reviewed: April 2024

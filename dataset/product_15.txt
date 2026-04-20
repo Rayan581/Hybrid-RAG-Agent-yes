@@ -1,0 +1,13 @@
+Title: Product_15
+Category: Home Appliances > Washing Machine
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_15 by Outfitters is a high-quality item in our Home Appliances collection.
+Detailed Sentiment: Users rate this 3.9/5 based on 734 reviews.
+Deal Alert: Currently on sale for 99,656 PKR (Save 23%).
+---
+Metadata:
+- ProductID: 15
+- Brand: Outfitters
+- Base Price: 129,424 PKR
+- Stock: 159

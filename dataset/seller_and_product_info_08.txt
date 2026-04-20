@@ -1,0 +1,13 @@
+Title: Seller Performance Scoring (SLA)
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Merchant Policy: Seller Performance Scoring (SLA).
+
+Summary: review manipulation using bot accounts is detected via IP tracking and will be penalized.
+Observation: refurbished items must clearly state their condition in the title to avoid customer confusion
+---
+Metadata:
+- DocID: SE-1059
+- Security: Public
+- Last Reviewed: April 2024

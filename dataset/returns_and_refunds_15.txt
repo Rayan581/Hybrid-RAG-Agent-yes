@@ -1,0 +1,13 @@
+Title: Voucher Re-issuance after Return
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: FAQ: Voucher Re-issuance after Return? 
+
+Answer: Absolutely. We ensure that for Voucher Re-issuance after Return, you can expect refunds to Daraz Wallet are credited within 24 hours of successful quality check.
+Observation: for Cash on Delivery orders, we typically issue a voucher or wallet credit instead of cash
+---
+Metadata:
+- DocID: RE-1014
+- Security: Public
+- Last Reviewed: April 2024

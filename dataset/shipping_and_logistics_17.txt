@@ -1,0 +1,13 @@
+Title: Estimated Delivery Timelines (EDT)
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Operations Alert: Estimated Delivery Timelines (EDT).
+
+Please be advised that if three delivery attempts fail, the package is automatically returned to the seller for the upcoming campaign season.
+Observation: Global Collection items are subject to customs clearance which is handled by Daraz on your behalf
+---
+Metadata:
+- DocID: SH-1042
+- Security: Public
+- Last Reviewed: April 2024

@@ -1,0 +1,13 @@
+Title: Seller Performance Scoring (SLA)
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Guide for Buyers: Seller Performance Scoring (SLA).
+
+When browsing, stay aware that sellers must maintain a 90% positive rating to participate in the 'Global Collection' program.
+Observation: Additionally, all transactions are logged for audit transparency.
+---
+Metadata:
+- DocID: SE-1058
+- Security: Public
+- Last Reviewed: April 2024

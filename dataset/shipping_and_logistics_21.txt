@@ -1,0 +1,11 @@
+Title: Self-Collection at Daraz Shops
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Logistics Update: Self-Collection at Daraz Shops. customers can choose to pick up items at designated 'Daraz Shops' to save on shipping costs.
+Observation: heavy appliances over 20kg require specialized handling and may take longer to route
+---
+Metadata:
+- DocID: SH-1046
+- Security: Public
+- Last Reviewed: April 2024

@@ -1,0 +1,13 @@
+Title: Product_57
+Category: Beauty > Skincare
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_57 by Bata is a high-quality item in our Beauty collection.
+Detailed Sentiment: Users rate this 3.9/5 based on 890 reviews.
+Deal Alert: Currently on sale for 127,313 PKR (Save 6%).
+---
+Metadata:
+- ProductID: 57
+- Brand: Bata
+- Base Price: 135,440 PKR
+- Stock: 435

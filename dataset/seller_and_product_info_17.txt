@@ -1,0 +1,13 @@
+Title: Product Review Integrity Rules
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Merchant Policy: Product Review Integrity Rules.
+
+Summary: sellers must maintain a 90% positive rating to participate in the 'Global Collection' program.
+Observation: review manipulation using bot accounts is detected via IP tracking and will be penalized
+---
+Metadata:
+- DocID: SE-1068
+- Security: Public
+- Last Reviewed: April 2024

@@ -1,0 +1,13 @@
+Title: Live Tracking Status Definitions
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Policy: Live Tracking Status Definitions and Distribution.
+
+All logistics partners are informed that standard packaging requires double-bubble wrap for all electronic glass surfaces.
+Observation: Additionally, all transactions are logged for audit transparency.
+---
+Metadata:
+- DocID: SH-1037
+- Security: Public
+- Last Reviewed: April 2024

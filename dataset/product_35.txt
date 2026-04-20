@@ -1,0 +1,13 @@
+Title: Product_35
+Category: Beauty > Skincare
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_35 by Sapphire is a high-quality item in our Beauty collection.
+Detailed Sentiment: Users rate this 3.8/5 based on 168 reviews.
+Deal Alert: Currently on sale for 45,754 PKR (Save 43%).
+---
+Metadata:
+- ProductID: 35
+- Brand: Sapphire
+- Base Price: 80,271 PKR
+- Stock: 214

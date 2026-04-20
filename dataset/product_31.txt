@@ -1,0 +1,13 @@
+Title: Product_31
+Category: Home Appliances > Washing Machine
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_31 by Orient is a high-quality item in our Home Appliances collection.
+Detailed Sentiment: Users rate this 3.0/5 based on 343 reviews.
+Deal Alert: Currently on sale for 139,897 PKR (Save 25%).
+---
+Metadata:
+- ProductID: 31
+- Brand: Orient
+- Base Price: 186,530 PKR
+- Stock: 85

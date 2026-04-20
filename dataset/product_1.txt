@@ -1,0 +1,13 @@
+Title: Product_1
+Category: Fashion > Men
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_1 by Khaadi is a high-quality item in our Fashion collection.
+Detailed Sentiment: Users rate this 4.8/5 based on 267 reviews.
+Deal Alert: Currently on sale for 168,446 PKR (Save 13%).
+---
+Metadata:
+- ProductID: 1
+- Brand: Khaadi
+- Base Price: 193,617 PKR
+- Stock: 174

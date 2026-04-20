@@ -1,0 +1,13 @@
+Title: Product_52
+Category: Fashion > Kids
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_52 by Orient is a high-quality item in our Fashion collection.
+Detailed Sentiment: Users rate this 4.3/5 based on 95 reviews.
+Deal Alert: Currently on sale for 57,182 PKR (Save 29%).
+---
+Metadata:
+- ProductID: 52
+- Brand: Orient
+- Base Price: 80,539 PKR
+- Stock: 73

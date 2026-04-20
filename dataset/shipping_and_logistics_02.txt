@@ -1,0 +1,13 @@
+Title: Self-Collection at Daraz Shops
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Knowledge Base: Self-Collection at Daraz Shops
+
+When dealing with Self-Collection at Daraz Shops, customers frequently ask about latency. Note that delivery to remote areas like Gilgit-Baltistan may incur an additional 3-5 days lead time.
+Observation: Global Collection items are subject to customs clearance which is handled by Daraz on your behalf
+---
+Metadata:
+- DocID: SH-1027
+- Security: Public
+- Last Reviewed: April 2024

@@ -1,0 +1,13 @@
+Title: Non-Returnable Categories (Lingerie, Hygiene)
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Internal Memo - Non-Returnable Categories (Lingerie, Hygiene)
+
+Revision 2024: The current stance on Non-Returnable Categories (Lingerie, Hygiene) is that credit card refunds can take up to 10-14 working days depending on your bank's cycle. Staff must verify packaging before approval.
+Observation: the 14-day window starts from the exact time of delivery recorded by the courier
+---
+Metadata:
+- DocID: RE-1001
+- Security: Public
+- Last Reviewed: April 2024

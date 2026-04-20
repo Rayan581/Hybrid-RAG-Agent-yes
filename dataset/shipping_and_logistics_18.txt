@@ -1,0 +1,13 @@
+Title: Fragile Item Packaging Standards
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Operations Alert: Fragile Item Packaging Standards.
+
+Please be advised that heavy appliances over 20kg require specialized handling and may take longer to route for the upcoming campaign season.
+Observation: delivery to remote areas like Gilgit-Baltistan may incur an additional 3-5 days lead time
+---
+Metadata:
+- DocID: SH-1043
+- Security: Public
+- Last Reviewed: April 2024

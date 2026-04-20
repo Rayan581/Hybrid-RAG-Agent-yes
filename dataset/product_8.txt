@@ -1,0 +1,12 @@
+Title: Product_8
+Category: Electronics > Mobile
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_8 by Khaadi is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 4.7/5 based on 98 reviews.
+---
+Metadata:
+- ProductID: 8
+- Brand: Khaadi
+- Base Price: 46,564 PKR
+- Stock: 391

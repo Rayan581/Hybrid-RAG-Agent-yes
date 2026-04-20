@@ -1,0 +1,13 @@
+Title: Product_10
+Category: Electronics > Accessories
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_10 by Service is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 3.3/5 based on 276 reviews.
+Deal Alert: Currently on sale for 13,655 PKR (Save 15%).
+---
+Metadata:
+- ProductID: 10
+- Brand: Service
+- Base Price: 16,065 PKR
+- Stock: 296

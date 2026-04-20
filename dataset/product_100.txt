@@ -1,0 +1,13 @@
+Title: Product_100
+Category: Shoes > Women Shoes
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_100 by Khaadi is a high-quality item in our Shoes collection.
+Detailed Sentiment: Users rate this 3.4/5 based on 972 reviews.
+Deal Alert: Currently on sale for 87,307 PKR (Save 24%).
+---
+Metadata:
+- ProductID: 100
+- Brand: Khaadi
+- Base Price: 114,878 PKR
+- Stock: 302

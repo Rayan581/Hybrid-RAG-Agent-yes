@@ -1,0 +1,13 @@
+Title: Product_76
+Category: Fashion > Women
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_76 by Bata is a high-quality item in our Fashion collection.
+Detailed Sentiment: Users rate this 4.9/5 based on 825 reviews.
+Deal Alert: Currently on sale for 85,177 PKR (Save 40%).
+---
+Metadata:
+- ProductID: 76
+- Brand: Bata
+- Base Price: 141,963 PKR
+- Stock: 454

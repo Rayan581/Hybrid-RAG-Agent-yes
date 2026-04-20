@@ -1,0 +1,11 @@
+Title: Inland Waterway vs Road Logistics
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Logistics Update: Inland Waterway vs Road Logistics. if three delivery attempts fail, the package is automatically returned to the seller.
+Observation: Global Collection items are subject to customs clearance which is handled by Daraz on your behalf
+---
+Metadata:
+- DocID: SH-1034
+- Security: Public
+- Last Reviewed: April 2024

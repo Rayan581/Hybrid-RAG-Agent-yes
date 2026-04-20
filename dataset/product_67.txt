@@ -1,0 +1,13 @@
+Title: Product_67
+Category: Shoes > Men Shoes
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_67 by Dawlance is a high-quality item in our Shoes collection.
+Detailed Sentiment: Users rate this 3.2/5 based on 388 reviews.
+Deal Alert: Currently on sale for 144,518 PKR (Save 6%).
+---
+Metadata:
+- ProductID: 67
+- Brand: Dawlance
+- Base Price: 153,743 PKR
+- Stock: 231

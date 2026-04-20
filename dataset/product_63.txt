@@ -1,0 +1,13 @@
+Title: Product_63
+Category: Fashion > Women
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_63 by Orient is a high-quality item in our Fashion collection.
+Detailed Sentiment: Users rate this 4.9/5 based on 997 reviews.
+Deal Alert: Currently on sale for 37,741 PKR (Save 40%).
+---
+Metadata:
+- ProductID: 63
+- Brand: Orient
+- Base Price: 62,903 PKR
+- Stock: 237

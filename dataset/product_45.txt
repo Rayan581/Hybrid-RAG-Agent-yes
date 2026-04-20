@@ -1,0 +1,13 @@
+Title: Product_45
+Category: Fashion > Women
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_45 by Khaadi is a high-quality item in our Fashion collection.
+Detailed Sentiment: Users rate this 4.2/5 based on 602 reviews.
+Deal Alert: Currently on sale for 83,679 PKR (Save 32%).
+---
+Metadata:
+- ProductID: 45
+- Brand: Khaadi
+- Base Price: 123,058 PKR
+- Stock: 449

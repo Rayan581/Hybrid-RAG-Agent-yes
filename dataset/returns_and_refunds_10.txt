@@ -1,0 +1,11 @@
+Title: Damaged/Defective Item Claims
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Regarding Damaged/Defective Item Claims: Customers should note that Daraz Pakistan enforces a strict protocol. items must be in original, unsealed condition with all manufacturer tags and manuals.
+Observation: shipping fees are non-refundable unless the return is due to a seller error/faulty product
+---
+Metadata:
+- DocID: RE-1009
+- Security: Public
+- Last Reviewed: April 2024

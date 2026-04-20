@@ -1,0 +1,11 @@
+Title: Electronic Item Warranty Returns
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Regarding Electronic Item Warranty Returns: Customers should note that Daraz Pakistan enforces a strict protocol. refunds to Daraz Wallet are credited within 24 hours of successful quality check.
+Observation: items must be in original, unsealed condition with all manufacturer tags and manuals
+---
+Metadata:
+- DocID: RE-1017
+- Security: Public
+- Last Reviewed: April 2024

@@ -1,0 +1,13 @@
+Title: Product_65
+Category: Shoes > Women Shoes
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_65 by Bata is a high-quality item in our Shoes collection.
+Detailed Sentiment: Users rate this 4.6/5 based on 469 reviews.
+Deal Alert: Currently on sale for 144,619 PKR (Save 9%).
+---
+Metadata:
+- ProductID: 65
+- Brand: Bata
+- Base Price: 158,923 PKR
+- Stock: 275

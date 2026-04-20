@@ -1,0 +1,13 @@
+Title: Product_11
+Category: Electronics > Laptop
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_11 by Khaadi is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 3.3/5 based on 261 reviews.
+Deal Alert: Currently on sale for 90,712 PKR (Save 42%).
+---
+Metadata:
+- ProductID: 11
+- Brand: Khaadi
+- Base Price: 156,400 PKR
+- Stock: 372

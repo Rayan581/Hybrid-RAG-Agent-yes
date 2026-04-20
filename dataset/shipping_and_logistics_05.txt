@@ -1,0 +1,13 @@
+Title: Bulk Item Shipping Policy
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Knowledge Base: Bulk Item Shipping Policy
+
+When dealing with Bulk Item Shipping Policy, customers frequently ask about latency. Note that DEX coverage has now expanded to 50+ cities across Pakistan for same-day dispatch.
+Observation: standard packaging requires double-bubble wrap for all electronic glass surfaces
+---
+Metadata:
+- DocID: SH-1030
+- Security: Public
+- Last Reviewed: April 2024

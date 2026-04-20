@@ -1,0 +1,13 @@
+Title: Daraz Wallet Refund Timelines
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: FAQ: Daraz Wallet Refund Timelines? 
+
+Answer: Absolutely. We ensure that for Daraz Wallet Refund Timelines, you can expect bundled items must be returned as a complete set, including any free promotional gifts.
+Observation: shipping fees are non-refundable unless the return is due to a seller error/faulty product
+---
+Metadata:
+- DocID: RE-1021
+- Security: Public
+- Last Reviewed: April 2024

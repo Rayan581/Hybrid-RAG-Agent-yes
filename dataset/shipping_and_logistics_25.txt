@@ -1,0 +1,11 @@
+Title: Failed Delivery Attempts (Policy)
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Logistics Update: Failed Delivery Attempts (Policy). delivery to remote areas like Gilgit-Baltistan may incur an additional 3-5 days lead time.
+Observation: standard packaging requires double-bubble wrap for all electronic glass surfaces
+---
+Metadata:
+- DocID: SH-1050
+- Security: Public
+- Last Reviewed: April 2024

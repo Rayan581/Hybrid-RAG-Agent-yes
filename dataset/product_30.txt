@@ -1,0 +1,13 @@
+Title: Product_30
+Category: Shoes > Men Shoes
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_30 by Haier is a high-quality item in our Shoes collection.
+Detailed Sentiment: Users rate this 4.4/5 based on 955 reviews.
+Deal Alert: Currently on sale for 35,680 PKR (Save 50%).
+---
+Metadata:
+- ProductID: 30
+- Brand: Haier
+- Base Price: 71,360 PKR
+- Stock: 251

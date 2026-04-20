@@ -1,0 +1,13 @@
+Title: Product_81
+Category: Beauty > Skincare
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_81 by Dawlance is a high-quality item in our Beauty collection.
+Detailed Sentiment: Users rate this 3.7/5 based on 482 reviews.
+Deal Alert: Currently on sale for 125,067 PKR (Save 29%).
+---
+Metadata:
+- ProductID: 81
+- Brand: Dawlance
+- Base Price: 176,152 PKR
+- Stock: 161

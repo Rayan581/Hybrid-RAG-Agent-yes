@@ -1,0 +1,11 @@
+Title: Northern Area Shipping Surcharges
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Logistics Update: Northern Area Shipping Surcharges. delivery to remote areas like Gilgit-Baltistan may incur an additional 3-5 days lead time.
+Observation: if three delivery attempts fail, the package is automatically returned to the seller
+---
+Metadata:
+- DocID: SH-1044
+- Security: Public
+- Last Reviewed: April 2024

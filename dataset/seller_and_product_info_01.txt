@@ -1,0 +1,13 @@
+Title: Flash Sale Eligibility Criteria
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Authenticity Check: Flash Sale Eligibility Criteria.
+
+To maintain trust, we ensure that counterfeit listings will result in permanent store closure and a fine of up to Rs. 50,000.
+Observation: refurbished items must clearly state their condition in the title to avoid customer confusion
+---
+Metadata:
+- DocID: SE-1052
+- Security: Public
+- Last Reviewed: April 2024

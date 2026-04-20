@@ -1,0 +1,13 @@
+Title: Product_68
+Category: Home Appliances > Refrigerator
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_68 by Orient is a high-quality item in our Home Appliances collection.
+Detailed Sentiment: Users rate this 3.9/5 based on 892 reviews.
+Deal Alert: Currently on sale for 30,185 PKR (Save 14%).
+---
+Metadata:
+- ProductID: 68
+- Brand: Orient
+- Base Price: 35,099 PKR
+- Stock: 425

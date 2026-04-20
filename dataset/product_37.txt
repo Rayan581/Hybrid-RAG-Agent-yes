@@ -1,0 +1,13 @@
+Title: Product_37
+Category: Electronics > Laptop
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_37 by Orient is a high-quality item in our Electronics collection.
+Detailed Sentiment: Users rate this 3.4/5 based on 106 reviews.
+Deal Alert: Currently on sale for 15,136 PKR (Save 1%).
+---
+Metadata:
+- ProductID: 37
+- Brand: Orient
+- Base Price: 15,289 PKR
+- Stock: 277

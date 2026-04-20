@@ -1,0 +1,13 @@
+Title: Prohibited Items List (Dangerous Goods)
+Category: Seller & Product Info
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Compliance Update - Prohibited Items List (Dangerous Goods).
+
+Following recent audits, brand owners must upload a valid Letter of Authorization (LoA) to the Seller Center is now mandatory for all listings.
+Observation: counterfeit listings will result in permanent store closure and a fine of up to Rs. 50,000
+---
+Metadata:
+- DocID: SE-1074
+- Security: Public
+- Last Reviewed: April 2024

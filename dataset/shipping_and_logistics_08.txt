@@ -1,0 +1,13 @@
+Title: Live Tracking Status Definitions
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Operations Alert: Live Tracking Status Definitions.
+
+Please be advised that standard packaging requires double-bubble wrap for all electronic glass surfaces for the upcoming campaign season.
+Observation: heavy appliances over 20kg require specialized handling and may take longer to route
+---
+Metadata:
+- DocID: SH-1033
+- Security: Public
+- Last Reviewed: April 2024

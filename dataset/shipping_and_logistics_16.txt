@@ -1,0 +1,11 @@
+Title: Inland Waterway vs Road Logistics
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Logistics Update: Inland Waterway vs Road Logistics. Global Collection items are subject to customs clearance which is handled by Daraz on your behalf.
+Observation: customers can choose to pick up items at designated 'Daraz Shops' to save on shipping costs
+---
+Metadata:
+- DocID: SH-1041
+- Security: Public
+- Last Reviewed: April 2024

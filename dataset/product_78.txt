@@ -1,0 +1,13 @@
+Title: Product_78
+Category: Shoes > Men Shoes
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_78 by Outfitters is a high-quality item in our Shoes collection.
+Detailed Sentiment: Users rate this 5.0/5 based on 239 reviews.
+Deal Alert: Currently on sale for 170,417 PKR (Save 7%).
+---
+Metadata:
+- ProductID: 78
+- Brand: Outfitters
+- Base Price: 183,245 PKR
+- Stock: 231

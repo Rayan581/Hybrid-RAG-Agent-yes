@@ -1,0 +1,13 @@
+Title: Product_91
+Category: Shoes > Women Shoes
+Source: Daraz Product Catalog (CSV)
+---
+Content: The Product_91 by Service is a high-quality item in our Shoes collection.
+Detailed Sentiment: Users rate this 4.9/5 based on 674 reviews.
+Deal Alert: Currently on sale for 58,715 PKR (Save 24%).
+---
+Metadata:
+- ProductID: 91
+- Brand: Service
+- Base Price: 77,257 PKR
+- Stock: 283

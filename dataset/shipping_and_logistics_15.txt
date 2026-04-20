@@ -1,0 +1,13 @@
+Title: Daraz Express (DEX) Coverage
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Operations Alert: Daraz Express (DEX) Coverage.
+
+Please be advised that heavy appliances over 20kg require specialized handling and may take longer to route for the upcoming campaign season.
+Observation: Global Collection items are subject to customs clearance which is handled by Daraz on your behalf
+---
+Metadata:
+- DocID: SH-1040
+- Security: Public
+- Last Reviewed: April 2024

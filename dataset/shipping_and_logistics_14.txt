@@ -1,0 +1,13 @@
+Title: Northern Area Shipping Surcharges
+Category: Shipping & Logistics
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Policy: Northern Area Shipping Surcharges and Distribution.
+
+All logistics partners are informed that shipping rates are calculated dynamically based on volumetric weight (L x W x H / 5000).
+Observation: delivery to remote areas like Gilgit-Baltistan may incur an additional 3-5 days lead time
+---
+Metadata:
+- DocID: SH-1039
+- Security: Public
+- Last Reviewed: April 2024

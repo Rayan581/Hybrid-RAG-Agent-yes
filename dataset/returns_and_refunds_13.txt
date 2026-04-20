@@ -1,0 +1,11 @@
+Title: Non-Returnable Categories (Lingerie, Hygiene)
+Category: Returns & Refunds
+Source: Daraz Internal Policy (Synthetic)
+---
+Content: Regarding Non-Returnable Categories (Lingerie, Hygiene): Customers should note that Daraz Pakistan enforces a strict protocol. certain health and beauty products are strictly non-returnable once the seal is broken.
+Observation: for Cash on Delivery orders, we typically issue a voucher or wallet credit instead of cash
+---
+Metadata:
+- DocID: RE-1012
+- Security: Public
+- Last Reviewed: April 2024
