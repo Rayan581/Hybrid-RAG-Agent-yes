@@ -174,6 +174,8 @@ function BenchmarkPanel() {
   const [results, setResults]   = useState([])
   const [running, setRunning]   = useState(false)
   const [done, setDone]         = useState(false)
+  const [concurrency, setConcurrency] = useState(null)
+  const [testingConcurrency, setTestingConcurrency] = useState(false)
 
   const runBenchmark = async () => {
     setResults([])
@@ -204,47 +206,95 @@ function BenchmarkPanel() {
     finally { setRunning(false) }
   }
 
-  return (
-    <section>
-      <SectionHeader title="Benchmark Runner" />
-      <motion.button onClick={runBenchmark} disabled={running}
-        whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-        className="mb-4 flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold
-                   bg-[#F57224] text-white shadow-sm disabled:opacity-50 transition">
-        {running ? <RefreshCw size={15} className="animate-spin" /> : <Play size={15} />}
-        {running ? 'Running…' : 'Run Benchmark'}
-      </motion.button>
+  const runConcurrency = async () => {
+    setTestingConcurrency(true)
+    try {
+      const res = await adminFetch('/benchmark/concurrency', { method: 'POST' })
+      setConcurrency(res)
+    } catch (e) { console.error(e) }
+    finally { setTestingConcurrency(false) }
+  }
 
-      {results.length > 0 && (
-        <div className="overflow-x-auto rounded-xl border border-gray-100">
-          <table className="w-full text-xs">
-            <thead className="bg-gray-50 text-gray-500 uppercase">
-              <tr>
-                {['Query', 'Avg Latency (ms)', 'P95 (ms)', 'Runs', 'Status'].map(h => (
-                  <th key={h} className="px-3 py-2 text-left font-semibold">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {results.map((r, i) => (
-                <tr key={i} className="hover:bg-gray-50">
-                  <td className="px-3 py-2 text-gray-700 max-w-[200px] truncate">{r.query}</td>
-                  <td className="px-3 py-2">{r.avg_latency_ms ?? '—'}</td>
-                  <td className="px-3 py-2">{r.p95_latency_ms ?? '—'}</td>
-                  <td className="px-3 py-2">{r.runs}</td>
-                  <td className="px-3 py-2">
-                    <span className={`px-2 py-0.5 rounded-full font-semibold
-                      ${r.status === 'ok' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
-                      {r.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {done && <p className="text-xs text-green-600 px-3 py-2">✅ Benchmark complete</p>}
+  return (
+    <section className="space-y-6">
+      <div>
+        <SectionHeader title="Functional Benchmarks" />
+        <div className="flex gap-3 mb-4">
+          <motion.button onClick={runBenchmark} disabled={running}
+            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold
+                       bg-[#F57224] text-white shadow-sm disabled:opacity-50 transition">
+            {running ? <RefreshCw size={15} className="animate-spin" /> : <Play size={15} />}
+            {running ? 'Running Tests…' : 'Run Quality Benchmark'}
+          </motion.button>
+          
+          <motion.button onClick={runConcurrency} disabled={testingConcurrency}
+            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold
+                       bg-blue-600 text-white shadow-sm disabled:opacity-50 transition">
+            {testingConcurrency ? <RefreshCw size={15} className="animate-spin" /> : <Users size={15} />}
+            {testingConcurrency ? 'Simulating…' : 'Run Concurrency Test (5 Users)'}
+          </motion.button>
         </div>
-      )}
+
+        {concurrency && (
+          <div className="mb-6 p-4 bg-blue-50 rounded-xl border border-blue-100 grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div>
+              <p className="text-[10px] uppercase font-bold text-blue-500">Total Time</p>
+              <p className="text-lg font-bold text-blue-900">{concurrency.total_time_ms}ms</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase font-bold text-blue-500">Avg Latency</p>
+              <p className="text-lg font-bold text-blue-900">{concurrency.avg_latency_ms}ms</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase font-bold text-blue-500">Concurrent Users</p>
+              <p className="text-lg font-bold text-blue-900">{concurrency.n_users}</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase font-bold text-blue-500">Status</p>
+              <p className="text-lg font-bold text-blue-900 capitalize">{concurrency.status}</p>
+            </div>
+          </div>
+        )}
+
+        {results.length > 0 && (
+          <div className="overflow-x-auto rounded-xl border border-gray-100">
+            <table className="w-full text-xs">
+              <thead className="bg-gray-50 text-gray-500 uppercase">
+                <tr>
+                  {['Query', 'Type', 'Latency', 'Result', 'Preview'].map(h => (
+                    <th key={h} className="px-3 py-2 text-left font-semibold">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {results.map((r, i) => (
+                  <tr key={i} className="hover:bg-gray-50">
+                    <td className="px-3 py-2 text-gray-700 font-medium">{r.query}</td>
+                    <td className="px-3 py-2">
+                      <span className="px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 font-mono text-[10px] uppercase">
+                        {r.type}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2 text-gray-500">{r.latency_ms}ms</td>
+                    <td className="px-3 py-2">
+                      <span className={`px-2 py-0.5 rounded-full font-bold
+                        ${r.passed ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
+                        {r.passed ? 'PASS' : 'FAIL'}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2 text-gray-400 italic max-w-[200px] truncate">
+                      {r.response_preview}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {done && <p className="text-xs text-green-600 px-3 py-2 font-semibold">✅ Quality Benchmark complete</p>}
+          </div>
+        )}
+      </div>
     </section>
   )
 }

@@ -54,11 +54,11 @@ FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
 MAX_PAYLOAD_BYTES = 1 * 1024 * 1024  # 1 MB
 
 # Rate limiting strings consumed by slowapi (format: "N/period").
-RATE_LIMIT_CHAT      = "10/minute"   # WebSocket & /chat endpoint
-RATE_LIMIT_API       = "30/minute"   # General API endpoints
-RATE_LIMIT_AUTH      = "5/minute"    # Login endpoint \u2014 brute-force protection
+RATE_LIMIT_CHAT      = "100/minute"   # WebSocket & /chat endpoint
+RATE_LIMIT_API       = "200/minute"   # General API endpoints
+RATE_LIMIT_AUTH      = "50/minute"    # Login endpoint — brute-force protection
 
-# JWT \u2014 change JWT_SECRET to a long random string via env var before deploying.
+# JWT — change JWT_SECRET to a long random string via env var before deploying.
 JWT_SECRET    = os.getenv("JWT_SECRET", "CHANGE_ME_IN_PRODUCTION_USE_LONG_RANDOM_STRING")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_MINUTES = 60

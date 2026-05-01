@@ -46,6 +46,7 @@ from src.conversation.memory import (
     get_or_create_session,
     apply_micro_compact,
     refresh_crm_block,
+    flush_session_to_db,
 )
 from src.conversation.compaction import (
     auto_compact_if_needed,
@@ -57,8 +58,8 @@ from src.retrieval.search import retriever
 
 logger = logging.getLogger(__name__)
 
-# Thread pool for blocking model inference (single worker — one LLM in RAM)
-_executor = ThreadPoolExecutor(max_workers=1)
+# Thread pool for blocking model inference (increased from 1 to 10 for better concurrency)
+_executor = ThreadPoolExecutor(max_workers=10)
 
 # =============================================================================
 # STT MODEL
@@ -226,13 +227,15 @@ class VoiceEngine:
 
     async def _post_turn_hooks(self, session_id: str) -> None:
         """
-        Steps 5 & 6 of turn order — run after assistant message is appended.
-        Both are non-blocking from the user's perspective.
+        Background memory work — runs AFTER user response is sent.
+        All operations are fire-and-forget; errors are logged, never raised.
         """
-        # Step 5: Micro-compact (sync — fast, in-memory operation)
+        loop = asyncio.get_event_loop()
+        # Step 5: Micro-compact (fast, in-memory — still sync but cheap)
         apply_micro_compact(session_id)
-
-        # Step 6: Background CRM extraction (fires async task, never awaited here)
+        # Flush to SQLite in background thread (non-blocking)
+        loop.run_in_executor(_executor, flush_session_to_db, session_id)
+        # Step 6: Background CRM extraction (already fire-and-forget)
         session = get_or_create_session(session_id)
         await maybe_extract_to_crm(session, _llm_generate_non_streaming)
 
@@ -244,19 +247,16 @@ class VoiceEngine:
         if guard_text:
             return await synthesize_speech(guard_text, session_id), "", guard_text
 
-        # Step 1: Auto-compact if needed
-        session = get_or_create_session(session_id)
-        await auto_compact_if_needed(
-            session, _llm_generate_non_streaming, context_window=N_CTX, session_id=session_id
-        )
-
+        # Transcribe first — no blocking compaction before STT
         user_text = await transcribe_audio(audio_bytes, session_id)
         if not user_text.strip():
             silence_reply = "I didn't catch that — could you try again?"
             return await synthesize_speech(silence_reply, session_id), "", silence_reply
 
-        # Steps 2–4
+        # Generate LLM response
         assistant_text = await _generate_text(session_id, user_text)
+
+        # Fast Redis-only updates
         add_message_to_chat(session_id, "user",      user_text)
         add_message_to_chat(session_id, "assistant", assistant_text)
         increment_turn(session_id)
@@ -264,10 +264,13 @@ class VoiceEngine:
         if get_session_status(session_id) != "ended" and is_conversation_resolved(session_id):
             set_session_status(session_id, "closing")
 
-        # Steps 5–6
-        await self._post_turn_hooks(session_id)
-
+        # Synthesize audio and return immediately
         audio_response = await synthesize_speech(assistant_text, session_id)
+
+        # Schedule all memory work AFTER audio is returned
+        session = get_or_create_session(session_id)
+        asyncio.create_task(self._background_memory_work(session_id, session))
+
         return audio_response, user_text, assistant_text
 
     # -------------------------------------------------------------------------
@@ -286,15 +289,12 @@ class VoiceEngine:
                 "turns_max":  MAX_TURNS,
             }
 
-        # Step 1
-        session = get_or_create_session(session_id)
-        await auto_compact_if_needed(
-            session, _llm_generate_non_streaming, context_window=N_CTX, session_id=session_id
-        )
-
         start = time.perf_counter()
-        # Steps 2–4
+
+        # Generate response FIRST — compaction runs in background AFTER
         assistant_text = await _generate_text(session_id, user_message)
+
+        # Fast in-memory updates (Redis only)
         add_message_to_chat(session_id, "user",      user_message)
         add_message_to_chat(session_id, "assistant", assistant_text)
         increment_turn(session_id)
@@ -302,11 +302,8 @@ class VoiceEngine:
         if get_session_status(session_id) != "ended" and is_conversation_resolved(session_id):
             set_session_status(session_id, "closing")
 
-        # Steps 5–6
-        await self._post_turn_hooks(session_id)
-
         session = get_or_create_session(session_id)
-        return {
+        result = {
             "response":   assistant_text,
             "latency_ms": round((time.perf_counter() - start) * 1000, 2),
             "session_id": session_id,
@@ -314,6 +311,21 @@ class VoiceEngine:
             "turns_used": session["turns"],
             "turns_max":  MAX_TURNS,
         }
+
+        # Schedule background memory work AFTER response is ready
+        asyncio.create_task(self._background_memory_work(session_id, session))
+
+        return result
+
+    async def _background_memory_work(self, session_id: str, session: dict) -> None:
+        """All memory work after a turn: compaction check, post-hooks. Non-blocking."""
+        try:
+            await auto_compact_if_needed(
+                session, _llm_generate_non_streaming, context_window=N_CTX, session_id=session_id
+            )
+            await self._post_turn_hooks(session_id)
+        except Exception as e:
+            logger.warning(f"[engine] Background memory work failed for {session_id}: {e}")
 
     # -------------------------------------------------------------------------
     # STREAMING TEXT PATH (WebSocket)
@@ -328,20 +340,14 @@ class VoiceEngine:
             yield {"token": "LLM not loaded.", "done": True, "error": "LLM initialization failed."}
             return
 
-        # Step 1
-        session = get_or_create_session(session_id)
-        await auto_compact_if_needed(
-            session, _llm_generate_non_streaming, context_window=N_CTX, session_id=session_id
-        )
-
         start = time.perf_counter()
 
-        # Step 2: RAG (ephemeral)
+        # RAG (ephemeral) — runs immediately, no compaction blocking
         rag_context = retriever.get_relevant_context(user_message)
         if estimate_tokens([{"content": rag_context}]) > RAG_MAX_CONTEXT_TOKENS:
             rag_context = rag_context[: RAG_MAX_CONTEXT_TOKENS * 4]
 
-        # Step 3: Build prompt
+        # Build prompt from current session state
         messages = build_inference_payload(session_id, user_message, rag_context=rag_context)
         prompt   = build_chatml_prompt(messages)
 
@@ -413,7 +419,7 @@ class VoiceEngine:
         if yield_buffer and not hide_remaining:
             yield {"token": yield_buffer, "done": False}
 
-        # Step 4: persist
+        # Persist to Redis immediately (fast — user gets done signal)
         clean_response = extract_and_strip_state(session_id, full_text)
         add_message_to_chat(session_id, "user",      user_message)
         add_message_to_chat(session_id, "assistant", clean_response.strip())
@@ -421,9 +427,6 @@ class VoiceEngine:
 
         if get_session_status(session_id) != "ended" and is_conversation_resolved(session_id):
             set_session_status(session_id, "closing")
-
-        # Steps 5–6
-        await self._post_turn_hooks(session_id)
 
         session = get_or_create_session(session_id)
         yield {
@@ -435,6 +438,9 @@ class VoiceEngine:
             "turns_used": session["turns"],
             "turns_max":  MAX_TURNS,
         }
+
+        # Schedule ALL memory work AFTER done signal is sent to user
+        asyncio.create_task(self._background_memory_work(session_id, session))
 
 
 llm_engine = VoiceEngine()

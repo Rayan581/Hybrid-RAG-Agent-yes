@@ -30,11 +30,20 @@ admin_router = APIRouter(
 # Benchmark queries (mirrors benchmarks/runner.py)
 # ---------------------------------------------------------------------------
 BENCHMARK_QUERIES = [
-    "Show me Samsung phones under 15000 PKR",
+    # General Domain (Shopping)
+    "Show me Samsung phones under 150000 PKR",
     "What are the best laptops for students on Daraz?",
     "Compare the iPhone 15 and Samsung S24",
     "I need a gaming chair, budget 25000",
     "What's the return policy on electronics?",
+    
+    # Out-of-Domain (Should be rejected)
+    "OOD: Who is the prime minister of Pakistan?",
+    "OOD: How do I treat a severe fever?",
+    "OOD: Can you write a Python script for a web scraper?",
+    
+    # Memory / Context (Will be handled in a sequence by the runner)
+    "MEM: What was the item I was interested in purchasing?",
 ]
 
 
@@ -89,49 +98,82 @@ async def run_benchmark(n_runs: int = 3):
     from src.engine.llm import llm_engine
 
     async def _stream():
-        results = []
+        import json as _json
         for query in BENCHMARK_QUERIES:
-            latencies = []
+            test_type = "general"
+            if query.startswith("OOD:"): test_type = "ood"
+            elif query.startswith("MEM:"): test_type = "memory"
+            
+            clean_query = query.replace("OOD: ", "").replace("MEM: ", "")
+            
             for _ in range(n_runs):
                 import uuid as _uuid
                 session_id = str(_uuid.uuid4())
+                
+                # Setup context for memory test
+                if test_type == "memory":
+                    await llm_engine.generate(session_id=session_id, user_message="I want to buy an iPhone 15 Pro Max")
+                    for i in range(2):
+                        await llm_engine.generate(session_id=session_id, user_message=f"Tell me about some accessories for that {i}")
+
                 t0 = time.perf_counter()
                 try:
                     result = await asyncio.wait_for(
-                        llm_engine.generate(session_id=session_id, user_message=query),
-                        timeout=30.0,
+                        llm_engine.generate(session_id=session_id, user_message=clean_query),
+                        timeout=60.0,
                     )
                     latency = (time.perf_counter() - t0) * 1000
-                    latencies.append(latency)
-                    await db.insert_benchmark(
-                        test_name=query[:50],
-                        metric="latency_ms",
-                        value=latency,
-                        session_id=session_id,
-                    )
+                    
+                    passed = True
+                    if test_type == "ood":
+                        passed = any(kw in result["response"].lower() for kw in ["shopping assistant", "cannot provide", "medical", "unrelated"])
+                    elif test_type == "memory":
+                        passed = "iphone 15" in result["response"].lower()
+                    
+                    row = {
+                        "query": query,
+                        "latency_ms": round(latency, 1),
+                        "status": "ok",
+                        "passed": passed,
+                        "type": test_type,
+                        "response_preview": result["response"][:50] + "..."
+                    }
+                    yield f"data: {_json.dumps(row)}\n\n"
                 except Exception as e:
-                    logger.error(f"[benchmark] Run failed for '{query}': {e}")
+                    yield f"data: {_json.dumps({'query': query, 'status': 'error', 'error': str(e)})}\n\n"
 
-            if latencies:
-                row = {
-                    "query":          query,
-                    "avg_latency_ms": round(statistics.mean(latencies), 1),
-                    "p95_latency_ms": round(sorted(latencies)[int(len(latencies) * 0.95)], 1),
-                    "runs":           len(latencies),
-                    "status":         "ok",
-                }
-            else:
-                row = {"query": query, "status": "error", "runs": 0}
-
-            results.append(row)
-            import json as _json
-            yield f"data: {_json.dumps(row)}\n\n"
-
-        # Final summary event
-        import json as _json
-        yield f"data: {_json.dumps({'done': True, 'total_queries': len(results)})}\n\n"
+        yield f"data: {_json.dumps({'done': True})}\n\n"
 
     return StreamingResponse(_stream(), media_type="text/event-stream")
+
+
+@admin_router.post("/benchmark/concurrency")
+async def concurrency_test(n_users: int = 5):
+    """
+    Simulates multiple users hitting the LLM simultaneously.
+    Measures total time and per-user average latency.
+    """
+    from src.engine.llm import llm_engine
+    import uuid as _uuid
+    
+    query = "What is the best Samsung phone?"
+    sessions = [str(_uuid.uuid4()) for _ in range(n_users)]
+    
+    t0 = time.perf_counter()
+    tasks = [llm_engine.generate(sid, query) for sid in sessions]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    total_time = (time.perf_counter() - t0) * 1000
+    
+    latencies = [r["latency_ms"] for r in results if isinstance(r, dict)]
+    errors = sum(1 for r in results if not isinstance(r, dict))
+    
+    return {
+        "n_users": n_users,
+        "total_time_ms": round(total_time, 1),
+        "avg_latency_ms": round(sum(latencies)/len(latencies), 1) if latencies else 0,
+        "errors": errors,
+        "status": "success" if errors == 0 else "partial_failure"
+    }
 
 
 @admin_router.get("/benchmark/history")

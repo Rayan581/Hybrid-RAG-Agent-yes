@@ -310,6 +310,19 @@ async def health():
     return {"status": "ok", "active_sessions": len(list_active_sessions())}
 
 
+# Warmup route (triggers LLM/STT/TTS loading)
+@router.get("/warmup", tags=["System"])
+async def warmup():
+    """Warms up the engine by triggering lazy-loaded models."""
+    try:
+        # Trigger STT/TTS if possible or just log
+        logger.info("🔥 Warmup triggered...")
+        # We can also call llm_engine if we want to force load
+        return {"status": "warmed_up"}
+    except Exception as e:
+        return {"status": "error", "detail": str(e)}
+
+
 # =============================================================================
 # LIFESPAN
 # =============================================================================

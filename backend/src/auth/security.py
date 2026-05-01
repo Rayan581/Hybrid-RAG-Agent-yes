@@ -37,6 +37,7 @@ LOCKOUT_MINUTES = 15
 # ---------------------------------------------------------------------------
 MIN_LENGTH = 8
 MAX_BYTES  = 72   # bcrypt silently truncates at 72 bytes — hard-cap here
+MAX_CHARS  = 4096 # Hard-cap for DoS protection (e.g. 50KB input)
 
 
 def validate_password(password: str) -> list[str]:
@@ -49,6 +50,10 @@ def validate_password(password: str) -> list[str]:
     inform the user clearly rather than silently accepting the truncated form.
     """
     errors = []
+    
+    if len(password) > MAX_CHARS:
+        return [f"Password is too long. Maximum allowed is {MAX_CHARS} characters."]
+
     byte_len = len(password.encode("utf-8"))
 
     if len(password) < MIN_LENGTH:

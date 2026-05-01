@@ -344,29 +344,23 @@ def get_or_create_session(session_id: str, user_id: Optional[str] = None) -> dic
 
 
 def add_message_to_chat(session_id: str, role: str, text: str) -> None:
+    """Hot path: append message and write to Redis only. SQLite is flushed in background."""
     session = get_or_create_session(session_id)
     session["history"].append({"role": role, "content": text})
     _save_to_redis(session_id, session)
-    save_session(session_id, session)
+    # SQLite write deferred — call flush_session_to_db() in a background task
 
 
 def apply_micro_compact(session_id: str) -> None:
-    """
-    Run micro_compact on the session's history and persist the result.
-    Called at the end of every turn after the assistant message is appended.
-    """
+    """Hot path: compact history in Redis only. SQLite flushed separately."""
     from src.conversation.compaction import micro_compact, estimate_tokens
     session = get_or_create_session(session_id)
     before = estimate_tokens(session["history"])
     session["history"] = micro_compact(session["history"])
     after = estimate_tokens(session["history"])
     _save_to_redis(session_id, session)
-    save_session(session_id, session)
-
     if before != after:
         logger.debug(f"[micro_compact] session={session_id} tokens {before}→{after}")
-        # Fire-and-forget audit log (async-safe: runs in sync context so we skip DB log here;
-        # the engine's async turn handler logs it instead)
 
 
 def get_chat_history(session_id: str) -> list:
@@ -382,17 +376,24 @@ def get_session_status(session_id: str) -> str:
 
 
 def set_session_status(session_id: str, status: str) -> None:
+    """Hot path: status update to Redis only."""
     session = get_or_create_session(session_id)
     session["status"] = status
     _save_to_redis(session_id, session)
-    save_session(session_id, session)
 
 
 def increment_turn(session_id: str) -> None:
+    """Hot path: turn increment to Redis only."""
     session = get_or_create_session(session_id)
     session["turns"] += 1
     _save_to_redis(session_id, session)
-    save_session(session_id, session)
+
+
+def flush_session_to_db(session_id: str) -> None:
+    """Persist current Redis session state to SQLite. Call from a background thread."""
+    session = _load_from_redis(session_id)
+    if session:
+        save_session(session_id, session)
 
 
 def is_session_maxed(session_id: str) -> bool:
