@@ -52,7 +52,7 @@ export async function logout() {
   return jsonFetch('/auth/logout', { method: 'POST' })
 }
 
-export async function register(username, password, email) {
+export async function register(username, email, password) {
   return jsonFetch('/auth/register', {
     method: 'POST',
     body: JSON.stringify({ username: sanitize(username), email, password }),
